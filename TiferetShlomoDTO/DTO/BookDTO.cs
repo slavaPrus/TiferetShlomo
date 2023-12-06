@@ -7,7 +7,7 @@ using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDTO.DTO
 {
-    internal class BookDTO
+    public class BookDTO
     {
         public int BookId { get; set; }
         public string? BookName { get; set; }

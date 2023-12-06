@@ -1,6 +1,7 @@
 ﻿using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
 using AutoMapper;
+using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
@@ -24,9 +25,10 @@ namespace TiferetShlomoBL
             return _bookDAL.GetBookById(id);
         }
 
-        public void AddBook(Book book)
+        public void AddBook(BookDTO book)
         {
-            _bookDAL.AddBook(book);
+            Book b = Mapper.Map<Book>(book);
+            _bookDAL.AddBook(b);
         }
 
         public void UpdateBook(Book book)

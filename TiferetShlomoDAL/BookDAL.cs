@@ -20,8 +20,18 @@ namespace TiferetShlomoDAL
 
         public void AddBook(Book book)
         {
-            _context.Books.Add(book);
-            _context.SaveChanges();
+            try
+            {
+                _context.Books.Add(book);
+                _context.SaveChanges();
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
 
         public void UpdateBook(Book book)

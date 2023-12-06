@@ -13,6 +13,7 @@ namespace TiferetShlomoDTO.DTO
         public AutoMapping()
         {
             CreateMap<Book, BookDTO>();
+            CreateMap<BookDTO, Book>();
         }
 
     }

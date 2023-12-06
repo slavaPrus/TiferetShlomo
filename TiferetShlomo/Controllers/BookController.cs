@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomo.Controllers
 {
@@ -36,7 +37,7 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddBook([FromBody] Book book)
+        public IActionResult AddBook([FromBody] BookDTO book)
         {
             _bookBL.AddBook(book);
             return CreatedAtAction(nameof(GetBookById), new { id = book.BookId }, book);
