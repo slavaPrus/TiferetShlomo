@@ -1,0 +1,1 @@
+﻿Scaffold-DbContext "Server=DESKTOP-H37566O\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
