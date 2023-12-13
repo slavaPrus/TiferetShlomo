@@ -10,12 +10,32 @@ namespace TiferetShlomoDAL
        
         public IEnumerable<Book> GetAllBooks()
         {
-            return _context.Books.ToList();
+            try
+            {
+               return _context.Books.ToList();
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         public Book GetBookById(int id)
         {
-            return _context.Books.Find(id);
+            try
+            {
+                return _context.Books.Find(id);
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         public void AddBook(Book book)
@@ -36,18 +56,38 @@ namespace TiferetShlomoDAL
 
         public void UpdateBook(Book book)
         {
-            _context.Entry(book).State = EntityState.Modified;
-            _context.SaveChanges();
+            try
+            {
+               _context.Entry(book).State = EntityState.Modified;
+               _context.SaveChanges(); 
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         public void RemoveBook(int id)
         {
-            var book = _context.Books.Find(id);
-            if (book != null)
+            try
             {
-                _context.Books.Remove(book);
-                _context.SaveChanges();
+                var book = _context.Books.Find(id);
+                if (book != null)
+                {
+                    _context.Books.Remove(book);
+                    _context.SaveChanges();
+                }
+
             }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
     }
 }
