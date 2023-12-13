@@ -14,6 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(AutoMapping));
 builder.Services.AddScoped<IBookDAL, BookDAL>();
 builder.Services.AddScoped<IBookBL, BookBL>();
+builder.Services.AddScoped<IBookPartDAL, BookPartDAL>();
+builder.Services.AddScoped<IBookPartBL, BookPartBL>();
+builder.Services.AddScoped<IContactDAL, ContactDAL>();
+builder.Services.AddScoped<IContactBL, ContactBL>();
 
 var app = builder.Build();
 
