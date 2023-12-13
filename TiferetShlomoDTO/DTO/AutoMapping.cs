@@ -18,6 +18,9 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<BookPartDTO, BookPart>();
             CreateMap<Contact,ContactDTO>();
             CreateMap<ContactDTO, Contact>();
+            CreateMap<Flyer, FlyerDTO>();
+            CreateMap<FlyerDTO, Flyer>();
+               
         }
 
     }
