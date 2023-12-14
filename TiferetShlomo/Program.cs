@@ -18,6 +18,8 @@ builder.Services.AddScoped<IBookPartDAL, BookPartDAL>();
 builder.Services.AddScoped<IBookPartBL, BookPartBL>();
 builder.Services.AddScoped<IContactDAL, ContactDAL>();
 builder.Services.AddScoped<IContactBL, ContactBL>();
+builder.Services.AddScoped<IJoiningDAL, JoiningDAL>();
+builder.Services.AddScoped<IJoiningBL, JoiningBL>();
 
 var app = builder.Build();
 

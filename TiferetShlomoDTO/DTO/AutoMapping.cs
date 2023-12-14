@@ -20,7 +20,11 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<ContactDTO, Contact>();
             CreateMap<Flyer, FlyerDTO>();
             CreateMap<FlyerDTO, Flyer>();
-               
+            CreateMap<Joining, JoiningDTO>();
+            CreateMap<JoiningDTO, Joining>();
+            CreateMap<Lesson, LessonDTO>();
+            CreateMap<LessonDTO, Lesson>();
+
         }
 
     }
