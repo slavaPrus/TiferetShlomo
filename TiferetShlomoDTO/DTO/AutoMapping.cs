@@ -24,6 +24,9 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<JoiningDTO, Joining>();
             CreateMap<Lesson, LessonDTO>();
             CreateMap<LessonDTO, Lesson>();
+            CreateMap<Mark, MarkDTO>();
+            CreateMap<MarkDTO, Mark>();
+
 
         }
 
