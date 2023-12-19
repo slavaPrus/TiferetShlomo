@@ -26,6 +26,10 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<LessonDTO, Lesson>();
             CreateMap<Picture, PictureDTO>();
             CreateMap<PictureDTO, Picture>();
+            CreateMap<Mark, MarkDTO>();
+            CreateMap<MarkDTO, Mark>();
+
+
 
         }
 
