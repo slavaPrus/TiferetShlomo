@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
+using AutoMapper;
 
 namespace TiferetShlomoBL
 {
     public class LessonBL : ILessonBL
     {
         private readonly ILessonDAL _lessonDAL; // Inject ILessonDAL interface here
-
-        public LessonBL(ILessonDAL lessonDAL)
+        private readonly IMapper _mapper;
+        public LessonBL(ILessonDAL lessonDAL, IMapper mapper)
         {
             _lessonDAL = lessonDAL;
+            _mapper = mapper;
+
         }
 
         public IEnumerable<Lesson> GetAllLessons()

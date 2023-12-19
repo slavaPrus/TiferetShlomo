@@ -9,22 +9,24 @@ using AutoMapper;
 
 namespace TiferetShlomoBL
 {
-    public class FlyerBL : IFlyerBL
+    public class PictureBL : IPictureBL
+
     {
-        private readonly IFlyerDAL _flyerDAL; // Inject IFlyerDAL interface here
+        private readonly IPictureDAL _pictureDAL;
         private readonly IMapper _mapper;
 
-        public FlyerBL(IFlyerDAL flyerDAL,IMapper mapper)
+
+        public PictureBL(IPictureDAL pictureDAL, IMapper mapper)
         {
-            _flyerDAL = flyerDAL;
+            _pictureDAL = pictureDAL;
             _mapper = mapper;
         }
 
-        public IEnumerable<Flyer> GetAllFlyers()
+        public IEnumerable<Picture> GetAllPictures()
         {
             try
             {
-                return _flyerDAL.GetAllFlyers();
+                return _pictureDAL.GetAllPictures();
             }
             catch (Exception ex)
             {
@@ -33,11 +35,11 @@ namespace TiferetShlomoBL
             }
         }
 
-        public Flyer GetFlyerById(int id)
+        public Picture GetPictureById(int id)
         {
             try
             {
-                return _flyerDAL.GetFlyerById(id);
+                return _pictureDAL.GetPictureById(id);
             }
             catch (Exception ex)
             {
@@ -46,11 +48,11 @@ namespace TiferetShlomoBL
             }
         }
 
-        public void AddFlyer(Flyer flyer)
+        public void AddPicture(Picture picture)
         {
             try
             {
-                _flyerDAL.AddFlyer(flyer);
+                _pictureDAL.AddPicture(picture);
             }
             catch (Exception ex)
             {
@@ -59,11 +61,11 @@ namespace TiferetShlomoBL
             }
         }
 
-        public void UpdateFlyer(Flyer flyer)
+        public void UpdatePicture(Picture picture)
         {
             try
             {
-                _flyerDAL.UpdateFlyer(flyer);
+                _pictureDAL.UpdatePicture(picture);
             }
             catch (Exception ex)
             {
@@ -72,11 +74,11 @@ namespace TiferetShlomoBL
             }
         }
 
-        public void RemoveFlyer(int id)
+        public void RemovePicture(int id)
         {
             try
             {
-                _flyerDAL.RemoveFlyer(id);
+                _pictureDAL.RemovePicture(id);
             }
             catch (Exception ex)
             {

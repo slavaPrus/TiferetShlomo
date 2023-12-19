@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TiferetShlomoBL;
 using TiferetShlomoDAL;
+using TiferetShlomoDAL.Models;
 using TiferetShlomoDTO.DTO;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,10 @@ builder.Services.AddScoped<IContactDAL, ContactDAL>();
 builder.Services.AddScoped<IContactBL, ContactBL>();
 builder.Services.AddScoped<IJoiningDAL, JoiningDAL>();
 builder.Services.AddScoped<IJoiningBL, JoiningBL>();
+builder.Services.AddScoped<IPictureDAL, PictureDAL>();
+builder.Services.AddScoped<IPictureBL, PictureBL>();
+builder.Services.AddDbContext<TIFERET_SHLOMOContext>(options =>
+    options.UseSqlServer("Server=DESKTOP-H37566O\\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;"));
 
 var app = builder.Build();
 

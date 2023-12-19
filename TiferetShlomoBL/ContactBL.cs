@@ -5,16 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
+using AutoMapper;
 
 namespace TiferetShlomoBL
 {
     public class ContactBL : IContactBL
     {
         private readonly IContactDAL _contactDAL; // Inject the ContactDAL interface here
+        private readonly IMapper _mapper;
 
-        public ContactBL(IContactDAL contactDAL)
+        public ContactBL(IContactDAL contactDAL, IMapper mapper)
         {
             _contactDAL = contactDAL;
+            _mapper = mapper;
         }
 
         public IEnumerable<Contact> GetAllContacts()
