@@ -18,11 +18,16 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<Book> GetAllBooks()
+        public IEnumerable<BookDTO> GetAllBooks()
         {
             try
             {
-                return _bookDAL.GetAllBooks();
+                IEnumerable<Book> books = _bookDAL.GetAllBooks();
+
+                IEnumerable<BookDTO> booksDTO = _mapper.Map<IEnumerable<BookDTO>>(books);
+
+                return booksDTO;
+
             }
             catch (Exception ex)
             {
@@ -31,11 +36,14 @@ namespace TiferetShlomoBL
             }
         }
 
-        public Book GetBookById(int id)
+        public BookDTO GetBookById(int id)
         {
             try
             {
-                return _bookDAL.GetBookById(id);
+                Book book = _bookDAL.GetBookById(id);
+                BookDTO bookDTO = _mapper.Map<BookDTO>(book);
+                return bookDTO;
+                
             }
             catch (Exception ex)
             {
@@ -58,11 +66,12 @@ namespace TiferetShlomoBL
             }
         }
 
-        public void UpdateBook(Book book)
+        public void UpdateBook(BookDTO book)
         {
             try
             {
-                _bookDAL.UpdateBook(book);
+                Book b = _mapper.Map<Book>(book);
+                _bookDAL.UpdateBook(b);
             }
             catch (Exception ex)
             {

@@ -6,9 +6,9 @@ namespace TiferetShlomoBL
     public interface IBookBL
     {
         void AddBook(BookDTO book);
-        IEnumerable<Book> GetAllBooks();
-        Book GetBookById(int id);
+        IEnumerable<BookDTO> GetAllBooks();
+        BookDTO GetBookById(int id);
         void RemoveBook(int id);
-        void UpdateBook(Book book);
+        void UpdateBook(BookDTO book);
     }
 }

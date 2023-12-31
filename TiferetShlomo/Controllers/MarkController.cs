@@ -26,7 +26,7 @@ namespace TiferetShlomo.Controllers
 
         // GET: api/Mark/5
         [HttpGet("{id}")]
-        public ActionResult<Mark> GetMarkById(int id)
+        public ActionResult<MarkDTO> GetMarkById(int id)
         {
             var mark = _markBL.GetMarkById(id);
             if (mark == null)
@@ -46,7 +46,7 @@ namespace TiferetShlomo.Controllers
 
         // PUT: api/Mark/5
         [HttpPut("{id}")]
-        public IActionResult UpdateMark(int id, Mark mark)
+        public IActionResult UpdateMark(int id, MarkDTO mark)
         {
             if (id != mark.MarkId)
             {
@@ -56,6 +56,7 @@ namespace TiferetShlomo.Controllers
             try
             {
                 _markBL.UpdateMark(mark);
+                return CreatedAtAction(nameof(GetMarkById), new { id = mark.MarkId }, mark);
             }
             catch (Exception)
             {

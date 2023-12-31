@@ -69,7 +69,7 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id, [FromBody] Book book)
+        public IActionResult UpdateBook(int id, [FromBody] BookDTO book)
         {
             try
             {

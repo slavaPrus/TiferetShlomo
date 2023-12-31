@@ -33,9 +33,11 @@ namespace TiferetShlomoBL
 
         }
 
-        public Mark GetMarkById(int id)
+        public MarkDTO GetMarkById(int id)
         {
-            return _markDAL.GetMarkById(id);
+            Mark mark= _markDAL.GetMarkById(id);
+            MarkDTO markDTO = _mapper.Map<MarkDTO>(mark);
+            return markDTO;
         }
 
         public void AddMark(MarkDTO mark)
@@ -45,12 +47,12 @@ namespace TiferetShlomoBL
             _markDAL.AddMark(m);
         }
 
-        public void UpdateMark(Mark mark)
+        public void UpdateMark(MarkDTO mark)
         {
             // Perform business logic validations or additional operations if needed
-            _markDAL.UpdateMark(mark);
+            Mark m = _mapper.Map<Mark>(mark);
+            _markDAL.UpdateMark(m);
         }
-
         public void RemoveMark(int id)
         {
             // Perform business logic validations or additional operations if needed

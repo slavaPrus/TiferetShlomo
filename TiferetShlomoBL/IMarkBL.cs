@@ -7,8 +7,8 @@ namespace TiferetShlomoBL
     {
         void AddMark(MarkDTO mark);
         IEnumerable<MarkDTO> GetAllMarks();
-        Mark GetMarkById(int id);
+        MarkDTO GetMarkById(int id);
         void RemoveMark(int id);
-        void UpdateMark(Mark mark);
+        void UpdateMark(MarkDTO mark);
     }
 }
