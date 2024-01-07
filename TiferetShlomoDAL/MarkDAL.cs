@@ -11,7 +11,7 @@ namespace TiferetShlomoDAL
     public class MarkDAL : IMarkDAL
     {
         private readonly TIFERET_SHLOMOContext _context;
-      
+
 
         public MarkDAL(TIFERET_SHLOMOContext context)
         {

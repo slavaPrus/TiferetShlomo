@@ -4,10 +4,11 @@ namespace TiferetShlomoDAL
 {
     public interface IBookPartDAL
     {
-        void AddBookPart(BookPart bookPart);
-        IEnumerable<BookPart> GetAllBookParts();
-        BookPart GetBookPartById(int id);
-        void RemoveBookPart(int id);
-        void UpdateBookPart(BookPart bookPart);
+        Task<List<BookPart>> AddBookPart(BookPart bookPart);
+        Task<List<BookPart>> GetAllBookParts();
+        Task<BookPart> GetBookPartById(int id);
+        Task<BookPart> UpdateBookPart(BookPart bookPart);
+
+        Task RemoveBookPart(int id);
     }
 }

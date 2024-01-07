@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace TiferetShlomoAPI.Controllers
+namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/bookparts")]
     [ApiController]
     public class BookPartController : ControllerBase
     {
-        private readonly IBookPartBL _bookPartBL; // Inject BookPartBL interface here
+        private readonly IBookPartBL _bookPartBL;
 
         public BookPartController(IBookPartBL bookPartBL)
         {
@@ -17,87 +21,75 @@ namespace TiferetShlomoAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBookParts()
+        public async Task<List<BookPartDTO>> GetAllBookParts()
         {
             try
             {
-                var bookParts = _bookPartBL.GetAllBookParts();
-                return Ok(bookParts);
+                List<BookPartDTO> bookParts = await _bookPartBL.GetAllBookParts();
+                return bookParts;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetAllBookParts Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBookPartById(int id)
+        public async Task<BookPartDTO> GetBookPartById(int id)
         {
             try
             {
-                var bookPart = _bookPartBL.GetBookPartById(id);
-                if (bookPart == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(bookPart);
+                BookPartDTO bookPart = await _bookPartBL.GetBookPartById(id);
+                return bookPart;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetBookPartById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddBookPart([FromBody] BookPart bookPart)
+        public async Task<List<BookPartDTO>> AddBookPart([FromBody] BookPartDTO bookPart)
         {
             try
             {
-                _bookPartBL.AddBookPart(bookPart);
-                return CreatedAtAction(nameof(GetBookPartById), new { id = bookPart.PartId }, bookPart);
+                List<BookPartDTO> bookParts = await _bookPartBL.AddBookPart(bookPart);
+                return bookParts;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "AddBookPart Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBookPart(int id, [FromBody] BookPart bookPart)
+        public async Task<BookPartDTO> UpdateBookPart(int id, [FromBody] BookPartDTO bookPart)
         {
             try
             {
-                if (id != bookPart.PartId)
-                {
-                    return BadRequest("Id mismatch");
-                }
-
-                _bookPartBL.UpdateBookPart(bookPart);
-                return NoContent();
+                BookPartDTO existingBookPart = await _bookPartBL.UpdateBookPart(bookPart);
+                return existingBookPart;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "UpdateBookPart Controller");
+                return null;
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveBookPart(int id)
+        public async Task RemoveBookPart(int id)
         {
             try
             {
-                _bookPartBL.RemoveBookPart(id);
-                return NoContent();
+                await _bookPartBL.RemoveBookPart(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "RemoveBookPart Controller");
             }
         }
     }

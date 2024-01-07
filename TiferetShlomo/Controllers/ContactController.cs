@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
-using TiferetShlomoDAL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace TiferetShlomoAPI.Controllers
+namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/contacts")]
     [ApiController]
     public class ContactController : ControllerBase
     {
-        private readonly IContactBL _contactBL; // Inject IContactBL interface here
+        private readonly IContactBL _contactBL;
 
         public ContactController(IContactBL contactBL)
         {
@@ -18,87 +21,75 @@ namespace TiferetShlomoAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllContacts()
+        public async Task<List<ContactDTO>> GetAllContacts()
         {
             try
             {
-                var contacts = _contactBL.GetAllContacts();
-                return Ok(contacts);
+                List<ContactDTO> contacts = await _contactBL.GetAllContacts();
+                return contacts;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetAllContacts Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetContactById(int id)
+        public async Task<ContactDTO> GetContactById(int id)
         {
             try
             {
-                var contact = _contactBL.GetContactById(id);
-                if (contact == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(contact);
+                ContactDTO contact = await _contactBL.GetContactById(id);
+                return contact;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetContactById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddContact([FromBody] Contact contact)
+        public async Task<List<ContactDTO>> AddContact([FromBody] ContactDTO contact)
         {
             try
             {
-                _contactBL.AddContact(contact);
-                return CreatedAtAction(nameof(GetContactById), new { id = contact.PersonId }, contact);
+                List<ContactDTO> contacts = await _contactBL.AddContact(contact);
+                return contacts;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "AddContact Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateContact(int id, [FromBody] Contact contact)
+        public async Task<ContactDTO> UpdateContact(int id, [FromBody] ContactDTO contact)
         {
             try
             {
-                if (id != contact.PersonId)
-                {
-                    return BadRequest("Id mismatch");
-                }
-
-                _contactBL.UpdateContact(contact);
-                return NoContent();
+                ContactDTO existingContact = await _contactBL.UpdateContact(contact);
+                return existingContact;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "UpdateContact Controller");
+                return null;
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveContact(int id)
+        public async Task RemoveContact(int id)
         {
             try
             {
-                _contactBL.RemoveContact(id);
-                return NoContent();
+                await _contactBL.RemoveContact(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "RemoveContact Controller");
             }
         }
     }

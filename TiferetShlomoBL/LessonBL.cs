@@ -1,83 +1,105 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
 using AutoMapper;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
 
 namespace TiferetShlomoBL
 {
     public class LessonBL : ILessonBL
     {
-        private readonly ILessonDAL _lessonDAL; // Inject ILessonDAL interface here
+        private readonly ILessonDAL _LessonDAL;
         private readonly IMapper _mapper;
-        public LessonBL(ILessonDAL lessonDAL, IMapper mapper)
+
+        public LessonBL(ILessonDAL LessonDAL, IMapper mapper)
         {
-            _lessonDAL = lessonDAL;
+            _LessonDAL = LessonDAL;
             _mapper = mapper;
-
         }
 
-        public IEnumerable<Lesson> GetAllLessons()
+        public async Task<List<LessonDTO>> GetAllLessons()
         {
             try
             {
-                return _lessonDAL.GetAllLessons();
+                List<Lesson> Lessons = await _LessonDAL.GetAllLessons();
+
+                List<LessonDTO> LessonsDTO = _mapper.Map<List<LessonDTO>>(Lessons);
+
+                return LessonsDTO;
+
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllLessons BL");
+                return null;
             }
         }
 
-        public Lesson GetLessonById(int id)
+        public async Task<LessonDTO> GetLessonById(int id)
         {
             try
             {
-                return _lessonDAL.GetLessonById(id);
+                Lesson Lesson = await _LessonDAL.GetLessonById(id);
+                LessonDTO LessonDTO = _mapper.Map<LessonDTO>(Lesson);
+                return LessonDTO;
+
             }
             catch (Exception ex)
             {
-                throw ex;
+
+                Console.Write(ex.ToString(), "GetLessonById BL");
+                return null;
             }
         }
 
-        public void AddLesson(Lesson lesson)
+        public async Task<List<LessonDTO>> AddLesson(LessonDTO Lesson)
         {
             try
             {
-                _lessonDAL.AddLesson(lesson);
+                Lesson b = _mapper.Map<Lesson>(Lesson);
+                List<Lesson> Lessons = await _LessonDAL.AddLesson(b);
+
+                List<LessonDTO> LessonsDTO = _mapper.Map<List<LessonDTO>>(Lessons);
+
+                return LessonsDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+
+                Console.Write(ex.ToString(), "AddLesson BL");
+                return null;
             }
         }
 
-        public void UpdateLesson(Lesson lesson)
+        public async Task<LessonDTO> UpdateLesson(LessonDTO Lesson)
         {
             try
             {
-                _lessonDAL.UpdateLesson(lesson);
+                Lesson b = _mapper.Map<Lesson>(Lesson);
+                Lesson bUP = await _LessonDAL.UpdateLesson(b);
+                LessonDTO btd = _mapper.Map<LessonDTO>(bUP);
+                return btd;
             }
             catch (Exception ex)
             {
-                throw ex;
+
+                Console.Write(ex.ToString(), "UpdateLesson BL");
+                return null;
             }
         }
 
-        public void RemoveLesson(int id)
+        public async Task RemoveLesson(int id)
         {
             try
             {
-                _lessonDAL.RemoveLesson(id);
+                await _LessonDAL.RemoveLesson(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+
+                Console.Write(ex.ToString(), "RemoveLesson BL");
+
             }
         }
     }

@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDAL
@@ -12,70 +7,82 @@ namespace TiferetShlomoDAL
     {
         private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
 
-        public IEnumerable<BookPart> GetAllBookParts()
+        public async Task<List<BookPart>> GetAllBookParts()
         {
             try
             {
-                return _context.BookParts.ToList();
+                return await _context.BookParts.ToListAsync();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllBookParts DAL");
+                return null;
             }
         }
 
-        public BookPart GetBookPartById(int id)
+        public async Task<BookPart> GetBookPartById(int id)
         {
             try
             {
-                return _context.BookParts.Find(id);
+                return await _context.BookParts.FindAsync(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetBookPartById DAL");
+                return null;
             }
         }
 
-        public void AddBookPart(BookPart bookPart)
+        public async Task<List<BookPart>> AddBookPart(BookPart bookPart)
         {
             try
             {
-                _context.BookParts.Add(bookPart);
+                await _context.BookParts.AddAsync(bookPart);
                 _context.SaveChanges();
+                return await GetAllBookParts();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddBookPart DAL");
+                return null;
             }
         }
 
-        public void UpdateBookPart(BookPart bookPart)
+        public async Task<BookPart> UpdateBookPart(BookPart bookPart)
         {
             try
             {
-                _context.Entry(bookPart).State = EntityState.Modified;
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public void RemoveBookPart(int id)
-        {
-            try
-            {
-                var bookPart = _context.BookParts.Find(id);
-                if (bookPart != null)
+                BookPart bp = await _context.BookParts.FirstOrDefaultAsync(x => x.PartId == bookPart.PartId);
+                if (bp != null)
                 {
-                    _context.BookParts.Remove(bookPart);
+                    bp.BookId = bookPart.BookId;
+                    bp.Describe = bookPart.Describe;
+                    bp.FilePartUrl = bookPart.FilePartUrl;
+                    bp.Cost = bookPart.Cost;
+                    bp.FileId = bookPart.FileId;
+
                     _context.SaveChanges();
                 }
+                return bp;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateBookPart DAL");
+                return null;
+            }
+        }
+
+        public async Task RemoveBookPart(int id)
+        {
+            try
+            {
+                BookPart bookPart = _context.BookParts.Find(id);
+                _context.BookParts.Remove(bookPart);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "RemoveBookPart DAL");
             }
         }
     }

@@ -1,5 +1,4 @@
-﻿using TiferetShlomoDAL.Models;
-using TiferetShlomoDTO.DTO;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {

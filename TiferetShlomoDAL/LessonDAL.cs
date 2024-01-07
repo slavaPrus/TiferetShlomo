@@ -1,92 +1,102 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDAL
 {
     public class LessonDAL : ILessonDAL
     {
-        private readonly TIFERET_SHLOMOContext _context;
+        private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
 
-        public LessonDAL(TIFERET_SHLOMOContext context)
-        {
-            _context = context;
-        }
 
-        public IEnumerable<Lesson> GetAllLessons()
+        public async Task<List<Lesson>> GetAllLessons()
         {
             try
             {
-                return _context.Lessons.Include(l => l.LessonSubject).Include(l => l.LessonType).ToList();
+                return await _context.Lessons.ToListAsync();
+
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllLessons DAL");
+                return null;
             }
+
         }
 
-        public Lesson GetLessonById(int id)
+        public async Task<Lesson> GetLessonById(int id)
         {
             try
             {
-                return _context.Lessons.Include(l => l.LessonSubject).Include(l => l.LessonType).FirstOrDefault(l => l.LessonId == id);
+                return await _context.Lessons.FindAsync(id);
+
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetLessonById DAL");
+                return null;
+
             }
+
         }
 
-        public void AddLesson(Lesson lesson)
+        public async Task<List<Lesson>> AddLesson(Lesson Lesson)
         {
             try
             {
-                _context.Lessons.Add(lesson);
+                await _context.Lessons.AddAsync(Lesson);
                 _context.SaveChanges();
+                return await GetAllLessons();
+
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "AddLesson DAL");
+                return null;
+
             }
+
         }
 
-        public void UpdateLesson(Lesson lesson)
+        public async Task<Lesson> UpdateLesson(Lesson lesson)
         {
             try
             {
-                _context.Entry(lesson).State = EntityState.Modified;
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it appropriately
-                throw ex;
-            }
-        }
-
-        public void RemoveLesson(int id)
-        {
-            try
-            {
-                var lesson = _context.Lessons.Find(id);
-                if (lesson != null)
+                Lesson existingLesson = await _context.Lessons.FirstOrDefaultAsync(x => x.LessonId == lesson.LessonId);
+                if (existingLesson != null)
                 {
-                    _context.Lessons.Remove(lesson);
+                    existingLesson.LessonName = lesson.LessonName;
+                    existingLesson.LessonSubjectId = lesson.LessonSubjectId;
+                    existingLesson.LessonUrl = lesson.LessonUrl;
+                    existingLesson.LessonData = lesson.LessonData;
+                    existingLesson.LessonTypeId = lesson.LessonTypeId;
+
                     _context.SaveChanges();
                 }
+                return existingLesson;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateLesson DAL");
+                return null;
             }
+
+        }
+
+        public async Task RemoveLesson(int id)
+        {
+            try
+            {
+                Lesson Lesson = _context.Lessons.Find(id);
+                _context.Lessons.Remove(Lesson);
+                _context.SaveChanges();
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "RemoveLesson DAL");
+            }
+
         }
     }
 }

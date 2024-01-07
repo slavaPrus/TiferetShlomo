@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface ILessonBL
     {
-        void AddLesson(Lesson lesson);
-        IEnumerable<Lesson> GetAllLessons();
-        Lesson GetLessonById(int id);
-        void RemoveLesson(int id);
-        void UpdateLesson(Lesson lesson);
+        Task<List<LessonDTO>> AddLesson(LessonDTO Lesson);
+        Task<List<LessonDTO>> GetAllLessons();
+        Task<LessonDTO> GetLessonById(int id);
+        Task RemoveLesson(int id);
+        Task<LessonDTO> UpdateLesson(LessonDTO Lesson);
     }
 }

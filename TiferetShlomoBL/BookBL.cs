@@ -18,78 +18,88 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<BookDTO> GetAllBooks()
+        public async Task<List<BookDTO>> GetAllBooks()
         {
             try
             {
-                IEnumerable<Book> books = _bookDAL.GetAllBooks();
+                List<Book> books =await _bookDAL.GetAllBooks();
 
-                IEnumerable<BookDTO> booksDTO = _mapper.Map<IEnumerable<BookDTO>>(books);
+                List<BookDTO> booksDTO = _mapper.Map<List<BookDTO>>(books);
 
                 return booksDTO;
 
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                throw new Exception("Error fetching all books.", ex);
+                Console.Write(ex.ToString(), "GetAllBooks BL");
+                return null;
             }
         }
 
-        public BookDTO GetBookById(int id)
+        public async Task<BookDTO> GetBookById(int id)
         {
             try
             {
-                Book book = _bookDAL.GetBookById(id);
+                Book book = await _bookDAL.GetBookById(id);
                 BookDTO bookDTO = _mapper.Map<BookDTO>(book);
                 return bookDTO;
                 
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                throw new Exception($"Error fetching book with ID {id}.", ex);
+
+                Console.Write(ex.ToString(), "GetBookById BL");
+                return null;
             }
         }
 
-        public void AddBook(BookDTO book)
+        public async Task<List<BookDTO>> AddBook(BookDTO book)
         {
             try
             {
                 Book b = _mapper.Map<Book>(book);
-                _bookDAL.AddBook(b);
+                List<Book> books = await _bookDAL.AddBook(b);
+
+                List<BookDTO> booksDTO = _mapper.Map<List<BookDTO>>(books);
+
+                return booksDTO;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                throw new Exception("Error adding a new book.", ex);
+
+                Console.Write(ex.ToString(), "AddBook BL");
+                return null;
             }
         }
 
-        public void UpdateBook(BookDTO book)
+        public async Task<BookDTO> UpdateBook(BookDTO book)
         {
             try
             {
                 Book b = _mapper.Map<Book>(book);
-                _bookDAL.UpdateBook(b);
+                Book bUP =await _bookDAL.UpdateBook(b);
+                BookDTO btd= _mapper.Map<BookDTO>(bUP);
+                return btd;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                throw new Exception($"Error updating book with ID {book.BookId}.", ex);
+
+                Console.Write(ex.ToString(), "UpdateBook BL");
+                return null;
             }
         }
 
-        public void RemoveBook(int id)
+        public async Task RemoveBook(int id)
         {
             try
             {
-                _bookDAL.RemoveBook(id);
+               await _bookDAL.RemoveBook(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                throw new Exception($"Error removing book with ID {id}.", ex);
+
+                Console.Write(ex.ToString(), "RemoveBook BL");
+                
             }
         }
     }

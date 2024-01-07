@@ -57,11 +57,6 @@ namespace TiferetShlomoDAL.Models
                 entity.Property(e => e.Describe).HasMaxLength(300);
 
                 entity.Property(e => e.PictureId).HasColumnName("PictureID");
-
-                entity.HasOne(d => d.Picture)
-                    .WithMany(p => p.Books)
-                    .HasForeignKey(d => d.PictureId)
-                    .HasConstraintName("FK__Books__PictureID__3B75D760");
             });
 
             modelBuilder.Entity<BookPart>(entity =>

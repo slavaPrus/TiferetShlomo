@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface IBookPartBL
     {
-        void AddBookPart(BookPart bookPart);
-        IEnumerable<BookPart> GetAllBookParts();
-        BookPart GetBookPartById(int id);
-        void RemoveBookPart(int id);
-        void UpdateBookPart(BookPart bookPart);
+        Task<List<BookPartDTO>> AddBookPart(BookPartDTO bookPart);
+        Task<List<BookPartDTO>> GetAllBookParts();
+        Task<BookPartDTO> GetBookPartById(int id);
+        Task RemoveBookPart(int id);
+        Task<BookPartDTO> UpdateBookPart(BookPartDTO bookPart);
     }
 }

@@ -35,7 +35,7 @@ namespace TiferetShlomoBL
 
         public MarkDTO GetMarkById(int id)
         {
-            Mark mark= _markDAL.GetMarkById(id);
+            Mark mark = _markDAL.GetMarkById(id);
             MarkDTO markDTO = _mapper.Map<MarkDTO>(mark);
             return markDTO;
         }

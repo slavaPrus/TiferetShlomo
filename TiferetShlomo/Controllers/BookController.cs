@@ -4,6 +4,7 @@ using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
 using TiferetShlomoDTO.DTO;
 using System;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TiferetShlomo.Controllers
 {
@@ -19,100 +20,81 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllBooks()
+        public async Task<List<BookDTO>> GetAllBooks()
         {
             try
             {
-                var books = _bookBL.GetAllBooks();
-                return Ok(books);
+                List<BookDTO> books = await _bookBL.GetAllBooks();
+                return books;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error retrieving all books.");
+
+                Console.Write(ex.ToString(), "GetAllBooks Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetBookById(int id)
+        public async Task<BookDTO> GetBookById(int id)
         {
             try
             {
-                var book = _bookBL.GetBookById(id);
-                if (book == null)
-                {
-                    return NotFound();
-                }
+                BookDTO book = await _bookBL.GetBookById(id);
 
-                return Ok(book);
+                return book;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error retrieving book with ID {id}.");
+                Console.Write(ex.ToString(), "GetBookById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddBook([FromBody] BookDTO book)
+        public async Task<List<BookDTO>> AddBook([FromBody] BookDTO book)
         {
             try
             {
-                _bookBL.AddBook(book);
-                return CreatedAtAction(nameof(GetBookById), new { id = book.BookId }, book);
+                List<BookDTO> books = await _bookBL.AddBook(book);
+                return books;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                return StatusCode(StatusCodes.Status500InternalServerError, "Error adding a new book.");
+                Console.Write(ex.ToString(), "AddBook Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBook(int id, [FromBody] BookDTO book)
+        public async Task<BookDTO> UpdateBook(int id ,[FromBody] BookDTO book)
         {
             try
             {
-                if (id != book.BookId)
-                {
-                    return BadRequest("Invalid ID");
-                }
 
-                var existingBook = _bookBL.GetBookById(id);
-                if (existingBook == null)
-                {
-                    return NotFound();
-                }
-
-                _bookBL.UpdateBook(book);
-                return NoContent();
+                BookDTO existingBook = await _bookBL.UpdateBook(book);
+                return existingBook;
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error updating book with ID {id}.");
+                Console.Write(ex.ToString(), "UpdateBook Controller");
+                return null;
             }
         }
-
         [HttpDelete("{id}")]
-        public IActionResult RemoveBook(int id)
+        public async Task RemoveBook(int id)
         {
             try
             {
-                var existingBook = _bookBL.GetBookById(id);
-                if (existingBook == null)
-                {
-                    return NotFound();
-                }
+                await _bookBL.RemoveBook(id);
 
-                _bookBL.RemoveBook(id);
-                return NoContent();
             }
             catch (Exception ex)
             {
-                // Log the exception or perform necessary error handling
-                return StatusCode(StatusCodes.Status500InternalServerError, $"Error removing book with ID {id}.");
+                Console.Write(ex.ToString(), "RemoveBook Controller");
+
             }
         }
-    }
+        
+    } 
 }

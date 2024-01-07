@@ -4,6 +4,7 @@ using AutoMapper;
 using TiferetShlomoDTO.DTO;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TiferetShlomoBL
 {
@@ -18,64 +19,77 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<BookPart> GetAllBookParts()
+        public async Task<List<BookPartDTO>> GetAllBookParts()
         {
             try
             {
-                return _bookPartDAL.GetAllBookParts();
+                List<BookPart> bookParts = await _bookPartDAL.GetAllBookParts();
+                List<BookPartDTO> bookPartsDTO = _mapper.Map<List<BookPartDTO>>(bookParts);
+                return bookPartsDTO;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllBookParts BL");
+                return null;
             }
         }
 
-        public BookPart GetBookPartById(int id)
+        public async Task<BookPartDTO> GetBookPartById(int id)
         {
             try
             {
-                return _bookPartDAL.GetBookPartById(id);
+                BookPart bookPart = await _bookPartDAL.GetBookPartById(id);
+                BookPartDTO bookPartDTO = _mapper.Map<BookPartDTO>(bookPart);
+                return bookPartDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetBookPartById BL");
+                return null;
             }
         }
 
-        public void AddBookPart(BookPart bookPart)
+        public async Task<List<BookPartDTO>> AddBookPart(BookPartDTO bookPart)
         {
             try
             {
-                _bookPartDAL.AddBookPart(bookPart);
+                BookPart bp = _mapper.Map<BookPart>(bookPart);
+                List<BookPart> bookParts = await _bookPartDAL.AddBookPart(bp);
+                List<BookPartDTO> bookPartsDTO = _mapper.Map<List<BookPartDTO>>(bookParts);
+                return bookPartsDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddBookPart BL");
+                return null;
             }
         }
 
-        public void UpdateBookPart(BookPart bookPart)
+        public async Task<BookPartDTO> UpdateBookPart(BookPartDTO bookPart)
         {
             try
             {
-                _bookPartDAL.UpdateBookPart(bookPart);
+                BookPart bp = _mapper.Map<BookPart>(bookPart);
+                BookPart updatedBookPart = await _bookPartDAL.UpdateBookPart(bp);
+                BookPartDTO updatedBookPartDTO = _mapper.Map<BookPartDTO>(updatedBookPart);
+                return updatedBookPartDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateBookPart BL");
+                return null;
             }
         }
 
-        public void RemoveBookPart(int id)
+        public async Task RemoveBookPart(int id)
         {
             try
             {
-                _bookPartDAL.RemoveBookPart(id);
+                await _bookPartDAL.RemoveBookPart(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "RemoveBookPart BL");
             }
         }
     }

@@ -1,85 +1,89 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using TiferetShlomoDAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TiferetShlomoDAL
 {
     public class ContactDAL : IContactDAL
     {
-        private readonly TIFERET_SHLOMOContext _context;
+        private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
 
-        public ContactDAL(TIFERET_SHLOMOContext context)
-        {
-            _context = context;
-        }
-
-        public IEnumerable<Contact> GetAllContacts()
+        public async Task<List<Contact>> GetAllContacts()
         {
             try
             {
-                return _context.Contacts.ToList();
+                return await _context.Contacts.ToListAsync();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllContacts DAL");
+                return null;
             }
         }
 
-        public Contact GetContactById(int personId)
+        public async Task<Contact> GetContactById(int id)
         {
             try
             {
-                return _context.Contacts.FirstOrDefault(c => c.PersonId == personId);
+                return await _context.Contacts.FindAsync(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetContactById DAL");
+                return null;
             }
         }
 
-        public void AddContact(Contact contact)
+        public async Task<List<Contact>> AddContact(Contact contact)
         {
             try
             {
-                _context.Contacts.Add(contact);
-                _context.SaveChanges();
+                await _context.Contacts.AddAsync(contact);
+                await _context.SaveChangesAsync();
+                return await GetAllContacts();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddContact DAL");
+                return null;
             }
         }
 
-        public void UpdateContact(Contact contact)
+        public async Task<Contact> UpdateContact(Contact contact)
         {
             try
             {
-                _context.Contacts.Update(contact);
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public void RemoveContact(int personId)
-        {
-            try
-            {
-                var contact = _context.Contacts.FirstOrDefault(c => c.PersonId == personId);
-                if (contact != null)
+                Contact existingContact = await _context.Contacts.FirstOrDefaultAsync(x => x.PersonId == contact.PersonId);
+                if (existingContact != null)
                 {
-                    _context.Contacts.Remove(contact);
-                    _context.SaveChanges();
+                    existingContact.FirstName = contact.FirstName;
+                    existingContact.LastName = contact.LastName;
+                    existingContact.Email = contact.Email;
+                    // Update other properties as needed
+                    await _context.SaveChangesAsync();
                 }
+                return existingContact;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateContact DAL");
+                return null;
+            }
+        }
+
+        public async Task RemoveContact(int id)
+        {
+            try
+            {
+                Contact contact = await _context.Contacts.FindAsync(id);
+                _context.Contacts.Remove(contact);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "RemoveContact DAL");
             }
         }
     }

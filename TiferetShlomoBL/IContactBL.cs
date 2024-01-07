@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface IContactBL
     {
-        void AddContact(Contact contact);
-        IEnumerable<Contact> GetAllContacts();
-        Contact GetContactById(int personId);
-        void RemoveContact(int personId);
-        void UpdateContact(Contact contact);
+        Task<List<ContactDTO>> AddContact(ContactDTO contact);
+        Task<List<ContactDTO>> GetAllContacts();
+        Task<ContactDTO> GetContactById(int id);
+        Task RemoveContact(int id);
+        Task<ContactDTO> UpdateContact(ContactDTO contact);
     }
 }

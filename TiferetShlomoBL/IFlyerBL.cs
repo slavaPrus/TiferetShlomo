@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface IFlyerBL
     {
-        void AddFlyer(Flyer flyer);
-        IEnumerable<Flyer> GetAllFlyers();
-        Flyer GetFlyerById(int id);
-        void RemoveFlyer(int id);
-        void UpdateFlyer(Flyer flyer);
+        Task<List<FlyerDTO>> AddFlyer(FlyerDTO flyer);
+        Task<List<FlyerDTO>> GetAllFlyers();
+        Task<FlyerDTO> GetFlyerById(int id);
+        Task RemoveFlyer(int id);
+        Task<FlyerDTO> UpdateFlyer(FlyerDTO flyer);
     }
 }

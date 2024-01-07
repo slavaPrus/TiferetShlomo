@@ -7,7 +7,7 @@ using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDTO.DTO
 {
-    internal class FlyerDTO
+    public class FlyerDTO
     {
         public int FlyerId { get; set; }
         public DateTime? PublishDate { get; set; }

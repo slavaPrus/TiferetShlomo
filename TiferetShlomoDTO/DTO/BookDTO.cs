@@ -16,6 +16,6 @@ namespace TiferetShlomoDTO.DTO
         public string? BookUrl { get; set; }
         public int? PictureId { get; set; }
 
-        public virtual Picture? Picture { get; set; }
+       // public virtual Picture? Picture { get; set; }
     }
 }

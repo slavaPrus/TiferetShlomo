@@ -4,10 +4,10 @@ namespace TiferetShlomoDAL
 {
     public interface ILessonDAL
     {
-        void AddLesson(Lesson lesson);
-        IEnumerable<Lesson> GetAllLessons();
-        Lesson GetLessonById(int id);
-        void RemoveLesson(int id);
-        void UpdateLesson(Lesson lesson);
+        Task<List<Lesson>> AddLesson(Lesson Lesson);
+        Task<List<Lesson>> GetAllLessons();
+        Task<Lesson> GetLessonById(int id);
+        Task RemoveLesson(int id);
+        Task<Lesson> UpdateLesson(Lesson Lesson);
     }
 }

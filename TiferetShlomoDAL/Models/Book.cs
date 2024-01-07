@@ -17,7 +17,6 @@ namespace TiferetShlomoDAL.Models
         public string? BookUrl { get; set; }
         public int? PictureId { get; set; }
 
-        public virtual Picture? Picture { get; set; }
         public virtual ICollection<BookPart> BookParts { get; set; }
     }
 }

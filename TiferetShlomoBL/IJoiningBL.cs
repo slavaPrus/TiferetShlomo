@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface IJoiningBL
     {
-        void AddJoining(Joining joining);
-        IEnumerable<Joining> GetAllJoinings();
-        Joining GetJoiningById(int id);
-        void RemoveJoining(int id);
-        void UpdateJoining(Joining joining);
+        Task<List<JoiningDTO>> AddJoining(JoiningDTO joining);
+        Task<List<JoiningDTO>> GetAllJoinings();
+        Task<JoiningDTO> GetJoiningById(int id);
+        Task<bool> RemoveJoining(int id);
+        Task<JoiningDTO> UpdateJoining(JoiningDTO joining);
     }
 }

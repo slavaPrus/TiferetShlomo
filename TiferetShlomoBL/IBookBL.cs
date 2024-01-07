@@ -5,10 +5,10 @@ namespace TiferetShlomoBL
 {
     public interface IBookBL
     {
-        void AddBook(BookDTO book);
-        IEnumerable<BookDTO> GetAllBooks();
-        BookDTO GetBookById(int id);
-        void RemoveBook(int id);
-        void UpdateBook(BookDTO book);
+        Task<List<BookDTO>> AddBook(BookDTO book);
+        Task<List<BookDTO>> GetAllBooks();
+        Task<BookDTO> GetBookById(int id);
+        Task RemoveBook(int id);
+        Task<BookDTO> UpdateBook(BookDTO book);
     }
 }

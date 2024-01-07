@@ -4,10 +4,10 @@ namespace TiferetShlomoDAL
 {
     public interface IContactDAL
     {
-        void AddContact(Contact contact);
-        IEnumerable<Contact> GetAllContacts();
-        Contact GetContactById(int personId);
-        void RemoveContact(int personId);
-        void UpdateContact(Contact contact);
+        Task<List<Contact>> AddContact(Contact contact);
+        Task<List<Contact>> GetAllContacts();
+        Task<Contact> GetContactById(int id);
+        Task RemoveContact(int id);
+        Task<Contact> UpdateContact(Contact contact);
     }
 }

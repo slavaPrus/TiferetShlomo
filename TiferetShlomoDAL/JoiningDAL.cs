@@ -1,97 +1,86 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDAL
 {
     public class JoiningDAL : IJoiningDAL
     {
-        private readonly TIFERET_SHLOMOContext _context;
+        private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
 
-        public JoiningDAL(TIFERET_SHLOMOContext context)
-        {
-            _context = context;
-        }
-
-        public IEnumerable<Joining> GetAllJoinings()
+        public async Task<List<Joining>> GetAllJoinings()
         {
             try
             {
-                return _context.Joinings
-                    .Include(j => j.Category)
-                    .ToList();
+                return await _context.Joinings.ToListAsync();
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllJoinings DAL");
+                return null;
             }
         }
 
-        public Joining GetJoiningById(int id)
+        public async Task<Joining> GetJoiningById(int id)
         {
             try
             {
-                return _context.Joinings
-                    .Include(j => j.Category)
-                    .FirstOrDefault(j => j.JoinId == id);
+                return await _context.Joinings.FindAsync(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetJoiningById DAL");
+                return null;
             }
         }
 
-        public void AddJoining(Joining joining)
+        public async Task<List<Joining>> AddJoining(Joining joining)
         {
             try
             {
-                _context.Joinings.Add(joining);
-                _context.SaveChanges();
+                await _context.Joinings.AddAsync(joining);
+                await _context.SaveChangesAsync();
+                return await GetAllJoinings();
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "AddJoining DAL");
+                return null;
             }
         }
 
-        public void UpdateJoining(Joining joining)
+        public async Task<Joining> UpdateJoining(Joining joining)
         {
             try
             {
-                _context.Entry(joining).State = EntityState.Modified;
-                _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                // Log the exception or handle it appropriately
-                throw ex;
-            }
-        }
-
-        public void RemoveJoining(int id)
-        {
-            try
-            {
-                var joining = _context.Joinings.Find(id);
-                if (joining != null)
+                Joining j = await _context.Joinings.FirstOrDefaultAsync(x => x.JoinId == joining.JoinId);
+                if (j != null)
                 {
-                    _context.Joinings.Remove(joining);
+                    j.Phone = joining.Phone;
+                    j.Email = joining.Email;
+                    j.CategoryId = joining.CategoryId;
                     _context.SaveChanges();
                 }
+                return j;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateJoining DAL");
+                return null;
+            }
+        }
+
+        public async Task RemoveJoining(int id)
+        {
+            try
+            {
+                Joining joining = _context.Joinings.Find(id);
+                _context.Joinings.Remove(joining);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "RemoveJoining DAL");
             }
         }
     }
 }
-    

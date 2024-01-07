@@ -1,80 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
+using AutoMapper;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TiferetShlomoBL
 {
     public class JoiningBL : IJoiningBL
     {
-        private readonly IJoiningDAL _joiningDAL; // Inject JoiningDAL interface here
+        private readonly IJoiningDAL _joiningDAL;
+        private readonly IMapper _mapper;
 
-        public JoiningBL(IJoiningDAL joiningDAL)
+        public JoiningBL(IJoiningDAL joiningDAL, IMapper mapper)
         {
             _joiningDAL = joiningDAL;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Joining> GetAllJoinings()
+        public async Task<List<JoiningDTO>> GetAllJoinings()
         {
             try
             {
-                return _joiningDAL.GetAllJoinings();
+                List<Joining> joinings = await _joiningDAL.GetAllJoinings();
+                List<JoiningDTO> joiningDTOs = _mapper.Map<List<JoiningDTO>>(joinings);
+                return joiningDTOs;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllJoinings BL");
+                return null;
             }
         }
 
-        public Joining GetJoiningById(int id)
+        public async Task<JoiningDTO> GetJoiningById(int id)
         {
             try
             {
-                return _joiningDAL.GetJoiningById(id);
+                Joining joining = await _joiningDAL.GetJoiningById(id);
+                JoiningDTO joiningDTO = _mapper.Map<JoiningDTO>(joining);
+                return joiningDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetJoiningById BL");
+                return null;
             }
         }
 
-        public void AddJoining(Joining joining)
+        public async Task<List<JoiningDTO>> AddJoining(JoiningDTO joining)
         {
             try
             {
-                _joiningDAL.AddJoining(joining);
+                Joining j = _mapper.Map<Joining>(joining);
+                List<Joining> joinings = await _joiningDAL.AddJoining(j);
+                List<JoiningDTO> joiningDTOs = _mapper.Map<List<JoiningDTO>>(joinings);
+                return joiningDTOs;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddJoining BL");
+                return null;
             }
         }
 
-        public void UpdateJoining(Joining joining)
+        public async Task<JoiningDTO> UpdateJoining(JoiningDTO joining)
         {
             try
             {
-                _joiningDAL.UpdateJoining(joining);
+                Joining j = _mapper.Map<Joining>(joining);
+                Joining updatedJoining = await _joiningDAL.UpdateJoining(j);
+                JoiningDTO updatedJoiningDTO = _mapper.Map<JoiningDTO>(updatedJoining);
+                return updatedJoiningDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateJoining BL");
+                return null;
             }
         }
 
-        public void RemoveJoining(int id)
+        public async Task<bool> RemoveJoining(int id)
         {
             try
             {
-                _joiningDAL.RemoveJoining(id);
+                await _joiningDAL.RemoveJoining(id);
+                return true; // Return true indicating successful deletion
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "RemoveJoining BL");
+                return false; // Return false indicating deletion failure
             }
         }
     }

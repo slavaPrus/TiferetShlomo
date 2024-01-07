@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TiferetShlomoDAL.Models;
-using TiferetShlomoDAL;
 using TiferetShlomoBL;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/joinings")]
     [ApiController]
     public class JoiningController : ControllerBase
     {
-        private readonly IJoiningBL _joiningBL; // Inject IJoiningBL interface here
+        private readonly IJoiningBL _joiningBL;
 
         public JoiningController(IJoiningBL joiningBL)
         {
@@ -18,87 +20,73 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllJoinings()
+        public async Task<List<JoiningDTO>> GetAllJoinings()
         {
             try
             {
-                var joinings = _joiningBL.GetAllJoinings();
-                return Ok(joinings);
+                return await _joiningBL.GetAllJoinings();
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine(ex.ToString(), "GetAllJoinings controller");
+                // You can handle exceptions according to your application's needs.
+                return null; // For simplicity, returning null on exception.
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetJoiningById(int id)
+        public async Task<JoiningDTO> GetJoiningById(int id)
         {
             try
             {
-                var joining = _joiningBL.GetJoiningById(id);
-                if (joining == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(joining);
+                return await _joiningBL.GetJoiningById(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine(ex.ToString(), "GetJoiningById controller");
+                return null; // For simplicity, returning null on exception.
             }
         }
 
         [HttpPost]
-        public IActionResult AddJoining([FromBody] Joining joining)
+        public async Task<List<JoiningDTO>> AddJoining([FromBody] JoiningDTO joining)
         {
             try
             {
-                _joiningBL.AddJoining(joining);
-                return CreatedAtAction(nameof(GetJoiningById), new { id = joining.JoinId }, joining);
+                return await _joiningBL.AddJoining(joining);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine(ex.ToString(), "AddJoining controller");
+                return null; // For simplicity, returning null on exception.
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateJoining(int id, [FromBody] Joining joining)
+        public async Task<JoiningDTO> UpdateJoining(int id, [FromBody] JoiningDTO joining)
         {
             try
             {
-                if (id != joining.JoinId)
-                {
-                    return BadRequest("Id mismatch");
-                }
-
-                _joiningBL.UpdateJoining(joining);
-                return NoContent();
+                return await _joiningBL.UpdateJoining(joining);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine(ex.ToString(), "UpdateJoining controller");
+                return null; // For simplicity, returning null on exception.
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveJoining(int id)
+        public async Task<bool> RemoveJoining(int id)
         {
             try
             {
-                _joiningBL.RemoveJoining(id);
-                return NoContent();
+                return await _joiningBL.RemoveJoining(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.WriteLine(ex.ToString(), "RemoveJoining controller");
+                return false; // For simplicity, returning false on exception.
             }
         }
     }

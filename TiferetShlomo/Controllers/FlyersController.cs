@@ -2,14 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using TiferetShlomoDAL;
 
 namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/flyers")]
     [ApiController]
     public class FlyerController : ControllerBase
     {
-        private readonly IFlyerBL _flyerBL; // Inject IFlyerBL interface here
+        private readonly IFlyerBL _flyerBL;
 
         public FlyerController(IFlyerBL flyerBL)
         {
@@ -17,87 +22,75 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllFlyers()
+        public async Task<List<FlyerDTO>> GetAllFlyers()
         {
             try
             {
-                var flyers = _flyerBL.GetAllFlyers();
-                return Ok(flyers);
+                List<FlyerDTO> flyers = await _flyerBL.GetAllFlyers();
+                return flyers;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetAllFlyers Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetFlyerById(int id)
+        public async Task<FlyerDTO> GetFlyerById(int id)
         {
             try
             {
-                var flyer = _flyerBL.GetFlyerById(id);
-                if (flyer == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(flyer);
+                FlyerDTO flyer = await _flyerBL.GetFlyerById(id);
+                return flyer;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetFlyerById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddFlyer([FromBody] Flyer flyer)
+        public async Task<List<FlyerDTO>> AddFlyer([FromBody] FlyerDTO flyer)
         {
             try
             {
-                _flyerBL.AddFlyer(flyer);
-                return CreatedAtAction(nameof(GetFlyerById), new { id = flyer.FlyerId }, flyer);
+                List<FlyerDTO> flyers = await _flyerBL.AddFlyer(flyer);
+                return flyers;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "AddFlyer Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateFlyer(int id, [FromBody] Flyer flyer)
+        public async Task<FlyerDTO> UpdateFlyer(int id, [FromBody] FlyerDTO flyer)
         {
             try
             {
-                if (id != flyer.FlyerId)
-                {
-                    return BadRequest("Id mismatch");
-                }
-
-                _flyerBL.UpdateFlyer(flyer);
-                return NoContent();
+                FlyerDTO existingFlyer = await _flyerBL.UpdateFlyer(flyer);
+                return existingFlyer;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "UpdateFlyer Controller");
+                return null;
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemoveFlyer(int id)
+        public async Task RemoveFlyer(int id)
         {
             try
             {
-                _flyerBL.RemoveFlyer(id);
-                return NoContent();
+                await _flyerBL.RemoveFlyer(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "RemoveFlyer Controller");
             }
         }
     }

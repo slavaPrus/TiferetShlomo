@@ -2,103 +2,99 @@
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
+using System;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/lessons")]
     [ApiController]
-    public class LessonController : ControllerBase
+    public class lessonController : ControllerBase
     {
-        private readonly ILessonBL _lessonBL; // Inject ILessonBL interface here
+        private readonly ILessonBL _lessonBL;
 
-        public LessonController(ILessonBL lessonBL)
+        public lessonController(ILessonBL lessonBL)
         {
             _lessonBL = lessonBL;
         }
 
         [HttpGet]
-        public IActionResult GetAllLessons()
+        public async Task<List<LessonDTO>> GetAlllessons()
         {
             try
             {
-                var lessons = _lessonBL.GetAllLessons();
-                return Ok(lessons);
+                List<LessonDTO> lessons = await _lessonBL.GetAllLessons();
+                return lessons;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+
+                Console.Write(ex.ToString(), "GetAlllessons Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetLessonById(int id)
+        public async Task<LessonDTO> GetlessonById(int id)
         {
             try
             {
-                var lesson = _lessonBL.GetLessonById(id);
-                if (lesson == null)
-                {
-                    return NotFound();
-                }
+                LessonDTO lesson = await _lessonBL.GetLessonById(id);
 
-                return Ok(lesson);
+                return lesson;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetlessonById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddLesson([FromBody] Lesson lesson)
+        public async Task<List<LessonDTO>> Addlesson([FromBody] LessonDTO lesson)
         {
             try
             {
-                _lessonBL.AddLesson(lesson);
-                return CreatedAtAction(nameof(GetLessonById), new { id = lesson.LessonId }, lesson);
+                List<LessonDTO> lessons = await _lessonBL.AddLesson(lesson);
+                return lessons;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "Addlesson Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateLesson(int id, [FromBody] Lesson lesson)
+        public async Task<LessonDTO> Updatelesson(int id, [FromBody] LessonDTO lesson)
         {
             try
             {
-                if (id != lesson.LessonId)
-                {
-                    return BadRequest("Id mismatch");
-                }
 
-                _lessonBL.UpdateLesson(lesson);
-                return NoContent();
+                LessonDTO existinglesson = await _lessonBL.UpdateLesson(lesson);
+                return existinglesson;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "Updatelesson Controller");
+                return null;
             }
         }
-
         [HttpDelete("{id}")]
-        public IActionResult RemoveLesson(int id)
+        public async Task Removelesson(int id)
         {
             try
             {
-                _lessonBL.RemoveLesson(id);
-                return NoContent();
+                await _lessonBL.RemoveLesson(id);
+
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "Removelesson Controller");
+
             }
         }
+
     }
 }

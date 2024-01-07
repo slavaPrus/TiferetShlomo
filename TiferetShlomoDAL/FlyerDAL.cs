@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 
@@ -17,71 +16,86 @@ namespace TiferetShlomoDAL
             _context = context;
         }
 
-        public IEnumerable<Flyer> GetAllFlyers()
+        public async Task<List<Flyer>> GetAllFlyers()
         {
             try
             {
-                return _context.Flyers.ToList();
+                return await _context.Flyers.ToListAsync();
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllFlyers DAL");
+                return null;
             }
         }
 
-        public Flyer GetFlyerById(int id)
+        public async Task<Flyer> GetFlyerById(int id)
         {
             try
             {
-                return _context.Flyers.Find(id);
+                return await _context.Flyers.FindAsync(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetFlyerById DAL");
+                return null;
             }
         }
 
-        public void AddFlyer(Flyer flyer)
+        public async Task<List<Flyer>> AddFlyer(Flyer flyer)
         {
             try
             {
-                _context.Flyers.Add(flyer);
-                _context.SaveChanges();
+                await _context.Flyers.AddAsync(flyer);
+                await _context.SaveChangesAsync();
+                return await GetAllFlyers();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddFlyer DAL");
+                return null;
             }
         }
 
-        public void UpdateFlyer(Flyer flyer)
+        public async Task<Flyer> UpdateFlyer(Flyer flyer)
         {
             try
             {
-                _context.Entry(flyer).State = EntityState.Modified;
-                _context.SaveChanges();
+                Flyer existingFlyer = await _context.Flyers.FirstOrDefaultAsync(x => x.FlyerId == flyer.FlyerId);
+                if (existingFlyer != null)
+                {
+                    existingFlyer.PublishDate = flyer.PublishDate;
+                    existingFlyer.ParashatShavuaId = flyer.ParashatShavuaId;
+                    existingFlyer.FlyerUrl = flyer.FlyerUrl;
+                    existingFlyer.FlyerData = flyer.FlyerData;
+                    existingFlyer.PictureUrl = flyer.PictureUrl;
+                    existingFlyer.PictureId = flyer.PictureId;
+
+                    await _context.SaveChangesAsync();
+                }
+                return existingFlyer;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateFlyer DAL");
+                return null;
             }
         }
 
-        public void RemoveFlyer(int id)
+        public async Task RemoveFlyer(int id)
         {
             try
             {
-                var flyer = _context.Flyers.Find(id);
+                Flyer flyer = await _context.Flyers.FindAsync(id);
                 if (flyer != null)
                 {
                     _context.Flyers.Remove(flyer);
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "RemoveFlyer DAL");
             }
         }
     }

@@ -7,7 +7,6 @@ namespace TiferetShlomoDAL.Models
     {
         public Picture()
         {
-            Books = new HashSet<Book>();
             Flyers = new HashSet<Flyer>();
             PictureSales = new HashSet<PictureSale>();
         }
@@ -16,7 +15,6 @@ namespace TiferetShlomoDAL.Models
         public string? PictureName { get; set; }
         public byte[]? PictureData { get; set; }
 
-        public virtual ICollection<Book> Books { get; set; }
         public virtual ICollection<Flyer> Flyers { get; set; }
         public virtual ICollection<PictureSale> PictureSales { get; set; }
     }

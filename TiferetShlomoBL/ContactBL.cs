@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
 using AutoMapper;
+using TiferetShlomoDTO.DTO;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace TiferetShlomoBL
 {
     public class ContactBL : IContactBL
     {
-        private readonly IContactDAL _contactDAL; // Inject the ContactDAL interface here
+        private readonly IContactDAL _contactDAL;
         private readonly IMapper _mapper;
 
         public ContactBL(IContactDAL contactDAL, IMapper mapper)
@@ -20,64 +19,77 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<Contact> GetAllContacts()
+        public async Task<List<ContactDTO>> GetAllContacts()
         {
             try
             {
-                return _contactDAL.GetAllContacts();
+                List<Contact> contacts = await _contactDAL.GetAllContacts();
+                List<ContactDTO> contactsDTO = _mapper.Map<List<ContactDTO>>(contacts);
+                return contactsDTO;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllContacts BL");
+                return null;
             }
         }
 
-        public Contact GetContactById(int personId)
+        public async Task<ContactDTO> GetContactById(int id)
         {
             try
             {
-                return _contactDAL.GetContactById(personId);
+                Contact contact = await _contactDAL.GetContactById(id);
+                ContactDTO contactDTO = _mapper.Map<ContactDTO>(contact);
+                return contactDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "GetContactById BL");
+                return null;
             }
         }
 
-        public void AddContact(Contact contact)
+        public async Task<List<ContactDTO>> AddContact(ContactDTO contact)
         {
             try
             {
-                _contactDAL.AddContact(contact);
+                Contact c = _mapper.Map<Contact>(contact);
+                List<Contact> contacts = await _contactDAL.AddContact(c);
+                List<ContactDTO> contactsDTO = _mapper.Map<List<ContactDTO>>(contacts);
+                return contactsDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "AddContact BL");
+                return null;
             }
         }
 
-        public void UpdateContact(Contact contact)
+        public async Task<ContactDTO> UpdateContact(ContactDTO contact)
         {
             try
             {
-                _contactDAL.UpdateContact(contact);
+                Contact c = _mapper.Map<Contact>(contact);
+                Contact updatedContact = await _contactDAL.UpdateContact(c);
+                ContactDTO updatedContactDTO = _mapper.Map<ContactDTO>(updatedContact);
+                return updatedContactDTO;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "UpdateContact BL");
+                return null;
             }
         }
 
-        public void RemoveContact(int personId)
+        public async Task RemoveContact(int id)
         {
             try
             {
-                _contactDAL.RemoveContact(personId);
+                await _contactDAL.RemoveContact(id);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.Write(ex.ToString(), "RemoveContact BL");
             }
         }
     }
