@@ -22,6 +22,10 @@ builder.Services.AddScoped<IContactDAL, ContactDAL>();
 builder.Services.AddScoped<IContactBL, ContactBL>();
 builder.Services.AddScoped<IJoiningDAL, JoiningDAL>();
 builder.Services.AddScoped<IJoiningBL, JoiningBL>();
+builder.Services.AddScoped<IPictureBL, PictureBL>();
+builder.Services.AddScoped<IPictureSaleDAL, PictureSaleDAL>();
+builder.Services.AddScoped<ITsfileBL, TsfileBL>();
+builder.Services.AddScoped<ITsfileDAL, TsfileDAL>();
 
 builder.Services.AddDbContext<TIFERET_SHLOMOContext>(options =>
     options.UseSqlServer("Server=DESKTOP-H37566O\\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;"));

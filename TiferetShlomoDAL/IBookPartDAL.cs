@@ -8,7 +8,6 @@ namespace TiferetShlomoDAL
         Task<List<BookPart>> GetAllBookParts();
         Task<BookPart> GetBookPartById(int id);
         Task<BookPart> UpdateBookPart(BookPart bookPart);
-
         Task RemoveBookPart(int id);
     }
 }
