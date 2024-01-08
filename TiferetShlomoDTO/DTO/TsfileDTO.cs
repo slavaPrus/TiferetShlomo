@@ -5,8 +5,8 @@ namespace TiferetShlomoDAL.Models
 {
     public partial class TsfileDTO
     {
-        public int FileIdDTO { get; set; }
-        public string? NameFileDTO { get; set; }
-        public byte[]? FileDataDTO { get; set; }
+        public int FileId { get; set; }
+        public string? NameFile { get; set; }
+        public byte[]? FileData { get; set; }
     }
 }

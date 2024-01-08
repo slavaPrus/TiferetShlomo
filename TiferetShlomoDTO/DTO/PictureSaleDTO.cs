@@ -8,10 +8,10 @@ namespace TiferetShlomoDTO.DTO
 {
     public class PictureSaleDTO
     {
-        public int PictureSaleIdDTO { get; set; }
-        public string? PictureSaleNameDTO { get; set; }
-        public string? DescribeDTO { get; set; }
-        public string? PictureUrlDTO { get; set; }
-        public int? PictureIdDTO { get; set; }
+        public int PictureSaleId { get; set; }
+        public string? PictureSaleName { get; set; }
+        public string? Describe { get; set; }
+        public string? PictureUrl { get; set; }
+        public int? PictureId { get; set; }
     }
 }
