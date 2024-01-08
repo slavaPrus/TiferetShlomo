@@ -6,7 +6,7 @@ using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomo.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/mark")]
     [ApiController]
     public class MarkController : ControllerBase
     {
