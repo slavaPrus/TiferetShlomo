@@ -4,10 +4,10 @@ namespace TiferetShlomoDAL
 {
     public interface IMarkDAL
     {
-        void AddMark(Mark mark);
-        IEnumerable<Mark> GetAllMarks();
-        Mark GetMarkById(int id);
-        void RemoveMark(int id);
-        void UpdateMark(Mark mark);
+        Task<List<Mark>> AddMark(Mark mark);
+        Task<List<Mark>> GetAllMarks();
+        Task<Mark> GetMarkById(int id);
+        Task RemoveMark(int id);
+        Task<Mark> UpdateMark(Mark mark);
     }
 }

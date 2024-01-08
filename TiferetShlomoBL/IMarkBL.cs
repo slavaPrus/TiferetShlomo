@@ -4,10 +4,10 @@ namespace TiferetShlomoBL
 {
     public interface IMarkBL
     {
-        void AddMark(MarkDTO mark);
-        IEnumerable<MarkDTO> GetAllMarks();
-        MarkDTO GetMarkById(int id);
-        void RemoveMark(int id);
-        void UpdateMark(MarkDTO mark);
+        Task<List<MarkDTO>> AddMark(MarkDTO mark);
+        Task<List<MarkDTO>> GetAllMarks();
+        Task<MarkDTO> GetMarkById(int id);
+        Task RemoveMark(int id);
+        Task<MarkDTO> UpdateMark(MarkDTO mark);
     }
 }

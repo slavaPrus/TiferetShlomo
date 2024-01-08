@@ -1,13 +1,13 @@
-﻿using TiferetShlomoDAL.Models;
+﻿using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
     public interface IPictureBL
     {
-        void AddPicture(Picture picture);
-        IEnumerable<Picture> GetAllPictures();
-        Picture GetPictureById(int id);
-        void RemovePicture(int id);
-        void UpdatePicture(Picture picture);
+        Task<List<PictureDTO>> AddPicture(PictureDTO picture);
+        Task<List<PictureDTO>> GetAllPictures();
+        Task<PictureDTO> GetPictureById(int id);
+        Task RemovePicture(int id);
+        Task<PictureDTO> UpdatePicture(PictureDTO picture);
     }
 }

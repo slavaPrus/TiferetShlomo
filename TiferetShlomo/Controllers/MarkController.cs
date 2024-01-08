@@ -12,78 +12,83 @@ namespace TiferetShlomo.Controllers
     {
         private readonly IMarkBL _markBL;
 
+
         public MarkController(IMarkBL markBL)
         {
             _markBL = markBL;
         }
 
-        // GET: api/Mark
         [HttpGet]
-        public IEnumerable<MarkDTO> GetAllMarks()
+        public async Task<List<MarkDTO>> GetAllMarks()
         {
-            return _markBL.GetAllMarks();
-        }
-
-        // GET: api/Mark/5
-        [HttpGet("{id}")]
-        public ActionResult<MarkDTO> GetMarkById(int id)
-        {
-            var mark = _markBL.GetMarkById(id);
-            if (mark == null)
-            {
-                return NotFound();
-            }
-            return mark;
-        }
-
-        // POST: api/Mark
-        [HttpPost]
-        public IActionResult AddMark(MarkDTO mark)
-        {
-            _markBL.AddMark(mark);
-            return CreatedAtAction(nameof(GetMarkById), new { id = mark.MarkId }, mark);
-        }
-
-        // PUT: api/Mark/5
-        [HttpPut("{id}")]
-        public IActionResult UpdateMark(int id, MarkDTO mark)
-        {
-            if (id != mark.MarkId)
-            {
-                return BadRequest();
-            }
-
             try
             {
-                _markBL.UpdateMark(mark);
-                return CreatedAtAction(nameof(GetMarkById), new { id = mark.MarkId }, mark);
+                List<MarkDTO> marks = await _markBL.GetAllMarks();
+                return marks;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                if (_markBL.GetMarkById(id) == null)
-                {
-                    return NotFound();
-                }
-                throw;
+                Console.Write(ex.ToString(), "GetAllMarks Controller");
+                return null;
             }
-
-            return NoContent();
         }
 
-        // DELETE: api/Mark/5
-        [HttpDelete("{id}")]
-        public IActionResult DeleteMark(int id)
+        [HttpGet("{id}")]
+        public async Task<MarkDTO> GetMarkById(int id)
         {
-            var existingMark = _markBL.GetMarkById(id);
-            if (existingMark == null)
+            try
             {
-                return NotFound();
+                MarkDTO mark = await _markBL.GetMarkById(id);
+                return mark;
             }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetMarkById Controller");
+                return null;
+            }
+        }
 
-            _markBL.RemoveMark(id);
+        [HttpPost]
+        public async Task<List<MarkDTO>> AddMark([FromBody] MarkDTO mark)
+        {
+            try
+            {
+                List<MarkDTO> marks = await _markBL.AddMark(mark);
+                return marks;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "AddMark Controller");
+                return null;
+            }
+        }
 
-            return NoContent();
+        [HttpPut("{id}")]
+        public async Task<MarkDTO> UpdateMark(int id, [FromBody] MarkDTO mark)
+        {
+            try
+            {
+                MarkDTO existingMark = await _markBL.UpdateMark( mark);
+                return existingMark;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "UpdateMark Controller");
+                return null;
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task RemoveMark(int id)
+        {
+            try
+            {
+                await _markBL.RemoveMark(id);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "RemoveMark Controller");
+            }
         }
     }
 }
-   

@@ -23,42 +23,79 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<MarkDTO> GetAllMarks()
+        public async Task<List<MarkDTO>> GetAllMarks()
         {
-            IEnumerable<Mark> marks = _markDAL.GetAllMarks();
-
-            IEnumerable<MarkDTO> marksDTO = _mapper.Map<IEnumerable<MarkDTO>>(marks);
-
-            return marksDTO;
-
+            try
+            {
+                List<Mark> marks = await _markDAL.GetAllMarks();
+                List<MarkDTO> marksDTO = _mapper.Map<List<MarkDTO>>(marks);
+                return marksDTO;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "GetAllMarks BL");
+                return null;
+            }
         }
 
-        public MarkDTO GetMarkById(int id)
+        public async Task<MarkDTO> GetMarkById(int id)
         {
-            Mark mark = _markDAL.GetMarkById(id);
-            MarkDTO markDTO = _mapper.Map<MarkDTO>(mark);
-            return markDTO;
+            try
+            {
+                Mark mark = await _markDAL.GetMarkById(id);
+                MarkDTO markDTO = _mapper.Map<MarkDTO>(mark);
+                return markDTO;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "GetMarkById BL");
+                return null;
+            }
         }
 
-        public void AddMark(MarkDTO mark)
+        public async Task<List<MarkDTO>> AddMark(MarkDTO mark)
         {
-            // Perform business logic validations or additional operations if needed
-            Mark m = _mapper.Map<Mark>(mark);
-            _markDAL.AddMark(m);
+            try
+            {
+                Mark m = _mapper.Map<Mark>(mark);
+                List<Mark> marks = await _markDAL.AddMark(m);
+                List<MarkDTO> marksDTO = _mapper.Map<List<MarkDTO>>(marks);
+                return marksDTO;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "AddMark BL");
+                return null;
+            }
         }
 
-        public void UpdateMark(MarkDTO mark)
+        public async Task<MarkDTO> UpdateMark(MarkDTO mark)
         {
-            // Perform business logic validations or additional operations if needed
-            Mark m = _mapper.Map<Mark>(mark);
-            _markDAL.UpdateMark(m);
+            try
+            {
+                Mark markEntity = _mapper.Map<Mark>(mark);
+                Mark updatedMark = await _markDAL.UpdateMark(markEntity);
+                MarkDTO updatedMarkDTO = _mapper.Map<MarkDTO>(updatedMark);
+                return updatedMarkDTO;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "UpdateMark BL");
+                return null;
+            }
         }
-        public void RemoveMark(int id)
+
+        public async Task RemoveMark(int id)
         {
-            // Perform business logic validations or additional operations if needed
-            _markDAL.RemoveMark(id);
+            try
+            {
+                await _markDAL.RemoveMark(id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString(), "RemoveMark BL");
+            }
         }
     }
-
 }
 

@@ -8,44 +8,86 @@ using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDAL
 {
-    public class PictureDAL : IPictureDAL
+    public class PictureDAL
     {
-        private readonly TIFERET_SHLOMOContext _context;
-
-        public PictureDAL(TIFERET_SHLOMOContext context)
+        private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
+        public async Task<List<Picture>> GetAllPictures()
         {
-            _context = context;
-        }
-
-        public IEnumerable<Picture> GetAllPictures()
-        {
-            return _context.Pictures.ToList();
-        }
-
-        public Picture GetPictureById(int id)
-        {
-            return _context.Pictures.Find(id);
-        }
-
-        public void AddPicture(Picture picture)
-        {
-            _context.Pictures.Add(picture);
-            _context.SaveChanges();
-        }
-
-        public void UpdatePicture(Picture picture)
-        {
-            _context.Entry(picture).State = EntityState.Modified;
-            _context.SaveChanges();
-        }
-
-        public void RemovePicture(int id)
-        {
-            var picture = _context.Pictures.Find(id);
-            if (picture != null)
+            try
             {
-                _context.Pictures.Remove(picture);
-                _context.SaveChanges();
+                return await _context.Pictures.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetAllPictures DAL");
+                return null;
+            }
+        }
+
+        public async Task<Picture> GetPictureById(int id)
+        {
+            try
+            {
+                return await _context.Pictures.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetPictureById DAL");
+                return null;
+            }
+        }
+
+        public async Task<List<Picture>> AddPicture(Picture picture)
+        {
+            try
+            {
+                await _context.Pictures.AddAsync(picture);
+                await _context.SaveChangesAsync();
+                return await GetAllPictures();
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "AddPicture DAL");
+                return null;
+            }
+        }
+
+        public async Task<Picture> UpdatePicture(Picture picture)
+        {
+            try
+            {
+                Picture p = await _context.Pictures.FirstOrDefaultAsync(x => x.PictureId == picture.PictureId);
+                if (p != null)
+                {
+                    p.PictureName = picture.PictureName;
+                    p.PictureData = picture.PictureData;
+                    // Update other properties as needed
+
+                    await _context.SaveChangesAsync();
+                }
+                return p;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "UpdatePicture DAL");
+                return null;
+            }
+        }
+
+        public async Task RemovePicture(int id)
+        {
+            try
+            {
+                Picture picture = await _context.Pictures.FindAsync(id);
+                if (picture != null)
+                {
+                    _context.Pictures.Remove(picture);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "RemovePicture DAL");
             }
         }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TiferetShlomoDAL.Models;
 using TiferetShlomoDAL;
 using AutoMapper;
+using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomoBL
 {
@@ -22,68 +23,77 @@ namespace TiferetShlomoBL
             _mapper = mapper;
         }
 
-        public IEnumerable<Picture> GetAllPictures()
+        public async Task<List<PictureDTO>> GetAllPictures()
         {
             try
             {
-                return _pictureDAL.GetAllPictures();
+                List<Picture> pictures = await _pictureDAL.GetAllPictures();
+                List<PictureDTO> pictureDTOs = _mapper.Map<List<PictureDTO>>(pictures);
+                return pictureDTOs;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetAllPictures BL");
+                return null;
             }
         }
 
-        public Picture GetPictureById(int id)
+        public async Task<PictureDTO> GetPictureById(int id)
         {
             try
             {
-                return _pictureDAL.GetPictureById(id);
+                Picture picture = await _pictureDAL.GetPictureById(id);
+                PictureDTO pictureDTO = _mapper.Map<PictureDTO>(picture);
+                return pictureDTO;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "GetPictureById BL");
+                return null;
             }
         }
 
-        public void AddPicture(Picture picture)
+        public async Task<List<PictureDTO>> AddPicture(PictureDTO picture)
         {
             try
             {
-                _pictureDAL.AddPicture(picture);
+                Picture p = _mapper.Map<Picture>(picture);
+                List<Picture> pictures = await _pictureDAL.AddPicture(p);
+                List<PictureDTO> pictureDTOs = _mapper.Map<List<PictureDTO>>(pictures);
+                return pictureDTOs;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "AddPicture BL");
+                return null;
             }
         }
 
-        public void UpdatePicture(Picture picture)
+        public async Task<PictureDTO> UpdatePicture(PictureDTO picture)
         {
             try
             {
-                _pictureDAL.UpdatePicture(picture);
+                Picture p = _mapper.Map<Picture>(picture);
+                Picture updatedPicture = await _pictureDAL.UpdatePicture(p);
+                PictureDTO updatedPictureDTO = _mapper.Map<PictureDTO>(updatedPicture);
+                return updatedPictureDTO;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "UpdatePicture BL");
+                return null;
             }
         }
 
-        public void RemovePicture(int id)
+        public async Task RemovePicture(int id)
         {
             try
             {
-                _pictureDAL.RemovePicture(id);
+                await _pictureDAL.RemovePicture(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                throw ex;
+                Console.Write(ex.ToString(), "RemovePicture BL");
             }
         }
     }

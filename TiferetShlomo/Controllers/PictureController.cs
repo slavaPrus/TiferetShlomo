@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL.Models;
+using TiferetShlomoDTO.DTO;
 
 namespace TiferetShlomo.Controllers
 {
@@ -9,6 +10,7 @@ namespace TiferetShlomo.Controllers
     [ApiController]
     public class PictureController : ControllerBase
     {
+
         private readonly IPictureBL _pictureBL;
 
         public PictureController(IPictureBL pictureBL)
@@ -17,87 +19,75 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllPictures()
+        public async Task<List<PictureDTO>> GetAllPictures()
         {
             try
             {
-                var pictures = _pictureBL.GetAllPictures();
-                return Ok(pictures);
+                List<PictureDTO> pictures = await _pictureBL.GetAllPictures();
+                return pictures;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetAllPictures Controller");
+                return null;
             }
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetPictureById(int id)
+        public async Task<PictureDTO> GetPictureById(int id)
         {
             try
             {
-                var picture = _pictureBL.GetPictureById(id);
-                if (picture == null)
-                {
-                    return NotFound();
-                }
-
-                return Ok(picture);
+                PictureDTO picture = await _pictureBL.GetPictureById(id);
+                return picture;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "GetPictureById Controller");
+                return null;
             }
         }
 
         [HttpPost]
-        public IActionResult AddPicture([FromBody] Picture picture)
+        public async Task<List<PictureDTO>> AddPicture([FromBody] PictureDTO picture)
         {
             try
             {
-                _pictureBL.AddPicture(picture);
-                return CreatedAtAction(nameof(GetPictureById), new { id = picture.PictureId }, picture);
+                List<PictureDTO> pictures = await _pictureBL.AddPicture(picture);
+                return pictures;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "AddPicture Controller");
+                return null;
             }
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePicture(int id, [FromBody] Picture picture)
+        public async Task<PictureDTO> UpdatePicture(int id, [FromBody] PictureDTO picture)
         {
             try
             {
-                if (id != picture.PictureId)
-                {
-                    return BadRequest("Id mismatch");
-                }
-
-                _pictureBL.UpdatePicture(picture);
-                return NoContent();
+                PictureDTO existingPicture = await _pictureBL.UpdatePicture( picture);
+                return existingPicture;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "UpdatePicture Controller");
+                return null;
             }
         }
 
         [HttpDelete("{id}")]
-        public IActionResult RemovePicture(int id)
+        public async Task RemovePicture(int id)
         {
             try
             {
-                _pictureBL.RemovePicture(id);
-                return NoContent();
+                await _pictureBL.RemovePicture(id);
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
-                return StatusCode(500, "Internal server error");
+                Console.Write(ex.ToString(), "RemovePicture Controller");
             }
         }
     }

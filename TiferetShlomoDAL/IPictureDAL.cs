@@ -4,10 +4,10 @@ namespace TiferetShlomoDAL
 {
     public interface IPictureDAL
     {
-        void AddPicture(Picture picture);
-        IEnumerable<Picture> GetAllPictures();
-        Picture GetPictureById(int id);
-        void RemovePicture(int id);
-        void UpdatePicture(Picture picture);
+        Task<List<Picture>> AddPicture(Picture picture);
+        Task<List<Picture>> GetAllPictures();
+        Task<Picture> GetPictureById(int id);
+        Task RemovePicture(int id);
+        Task<Picture> UpdatePicture(Picture picture);
     }
 }
