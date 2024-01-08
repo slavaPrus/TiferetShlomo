@@ -24,6 +24,10 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<JoiningDTO, Joining>();
             CreateMap<Lesson, LessonDTO>();
             CreateMap<LessonDTO, Lesson>();
+            CreateMap<Test, TestDTO>();
+            CreateMap<TestDTO, Test>();
+            CreateMap<User, UserDTO>();
+            CreateMap<UserDTO, User>();
 
         }
 
