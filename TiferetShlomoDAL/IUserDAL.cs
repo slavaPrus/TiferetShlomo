@@ -9,5 +9,6 @@ namespace TiferetShlomoDAL
         Task<User> GetUserById(int id);
         Task RemoveUser(int id);
         Task<User> UpdateUser(User user);
+        Task<User> GetUserByEmail(string email);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -90,6 +91,14 @@ namespace TiferetShlomoDAL
             {
                 Console.Write(ex.ToString(), "RemoveUser DAL");
             }
+        }
+
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            // Assuming you have a DbSet<User> in your DbContext
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user;
         }
     }
 }

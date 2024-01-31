@@ -94,6 +94,29 @@ namespace TiferetShlomoBL
                 Console.Write(ex.ToString(), "RemoveUser BL");
             }
         }
+        public async Task<UserDTO> AuthenticateUser(UserLoginDTO userDTO)
+        {
+
+            if (string.IsNullOrEmpty(userDTO.email) || string.IsNullOrEmpty(userDTO.password))
+            {
+                return null;
+            }
+
+            // Retrieve user from the database based on the email
+            User user = await _userDAL.GetUserByEmail(userDTO.email);
+
+            // Check if the user exists and the password matches
+            if (user != null && userDTO.password == user.UserPassword)
+            {
+
+                UserDTO u = _mapper.Map<UserDTO>(user);
+                // Authentication successful
+                return u;
+            }
+
+            // Authentication failed
+            return null;
+        }
     }
 }
 

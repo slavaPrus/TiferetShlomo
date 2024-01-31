@@ -24,16 +24,21 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<JoiningDTO, Joining>();
             CreateMap<Lesson, LessonDTO>();
             CreateMap<LessonDTO, Lesson>();
-            CreateMap<Test, TestDTO>();
-            CreateMap<TestDTO, Test>();
-            CreateMap<User, UserDTO>();
-            CreateMap<UserDTO, User>();
             CreateMap<PictureSale, PictureSaleDTO>();
             CreateMap<PictureSaleDTO, PictureSale>();
             CreateMap<Tsfile, TsfileDTO>();
             CreateMap<TsfileDTO, Tsfile>();
-
-
+            CreateMap<Test, TestDTO>();
+            CreateMap<TestDTO, Test>();
+            CreateMap<User, UserDTO>();
+            CreateMap<UserDTO, User>();
+            CreateMap<LessonSubject, LessonSubjectDTO>();
+            CreateMap<LessonSubjectDTO, LessonSubject>();
+            CreateMap<LessonType, LessonTypeDTO>();
+            CreateMap<LessonTypeDTO, LessonType>();
+            CreateMap<ParashatShavua, ParashatShavuaDTO>();
+            CreateMap<ParashatShavuaDTO, ParashatShavua>();
+            CreateMap<UserLoginDTO, User>();
 
         }
 

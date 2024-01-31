@@ -102,5 +102,26 @@ namespace TiferetShlomoBL
                 
             }
         }
+
+        public async Task<List<BookDTO>> GetBooksByPage(int page)
+        {
+            try
+            {
+                int pageSize =  16;
+                int skipCount = (page - 1) * pageSize;
+                // Retrieve books from the repository based on skipCount and pageSize
+                List<Book> books = await _bookDAL.GetBooksByPage(skipCount, pageSize);
+
+                List<BookDTO> booksDTO = _mapper.Map<List<BookDTO>>(books);
+
+                return booksDTO;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetBooksByPage in BookBL");
+                return null; // Propagate the exception to the controller for centralized error handling
+            }
+        }
     }
 }

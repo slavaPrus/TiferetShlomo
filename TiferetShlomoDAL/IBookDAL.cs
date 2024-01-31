@@ -9,5 +9,6 @@ namespace TiferetShlomoDAL
         Task<Book> GetBookById(int id);
         Task RemoveBook(int id);
         Task<Book> UpdateBook(Book book);
+        Task<List<Book>> GetBooksByPage(int skipCount, int pageSize);
     }
 }

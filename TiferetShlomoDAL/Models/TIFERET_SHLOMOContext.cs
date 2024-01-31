@@ -54,6 +54,8 @@ namespace TiferetShlomoDAL.Models
                     .HasMaxLength(50)
                     .HasColumnName("BookURL");
 
+                entity.Property(e => e.Category).HasMaxLength(50);
+
                 entity.Property(e => e.Describe).HasMaxLength(300);
 
                 entity.Property(e => e.PictureId).HasColumnName("PictureID");

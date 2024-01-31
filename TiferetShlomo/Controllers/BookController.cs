@@ -35,13 +35,28 @@ namespace TiferetShlomo.Controllers
             }
         }
 
+        [HttpGet("GetBooksByPage")]
+        public async Task<List<BookDTO>> GetBooksByPage([FromQuery] int page)
+        {
+            try
+            {
+                List<BookDTO> books = await _bookBL.GetBooksByPage(page);
+                return books;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "GetBooksByPage Controller");
+                return null;
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<BookDTO> GetBookById(int id)
         {
             try
             {
                 BookDTO book = await _bookBL.GetBookById(id);
-
                 return book;
             }
             catch (Exception ex)

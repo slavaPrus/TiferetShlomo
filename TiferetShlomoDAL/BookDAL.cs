@@ -22,8 +22,7 @@ namespace TiferetShlomoDAL
             }
 
         }
-
-        public async Task<Book> GetBookById(int id)
+    public async Task<Book> GetBookById(int id)
         {
             try
             {
@@ -97,6 +96,27 @@ namespace TiferetShlomoDAL
                 Console.Write(ex.ToString(), "RemoveBook DAL");
             }
 
+        }
+
+        public async Task<List<Book>> GetBooksByPage(int skipCount, int pageSize)
+        {
+            try
+            {
+                // Use your DbContext to query the database for books based on skipCount and pageSize
+                List<Book> books = await _context.Books
+                    .OrderBy(book => book.BookId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return books;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetBooksByPage in BookDAL");
+                return null; // Propagate the exception to the BL layer for centralized error handling
+            }
         }
     }
 }

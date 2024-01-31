@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Mvc;
 using TiferetShlomoBL;
 using TiferetShlomoDAL;
 using TiferetShlomoDTO.DTO;
@@ -88,6 +89,26 @@ namespace TiferetShlomo.Controllers
                 Console.Write(ex.ToString(), "RemoveUser Controller");
             }
         }
+        [HttpPost("signin")]
+        public async Task<UserDTO> Login([FromBody] UserLoginDTO userDTO)
+        {
+            try
+            {
+                Console.WriteLine(userDTO);
+                // Perform authentication
+                UserDTO authenticatedUser = await _userBL.AuthenticateUser(userDTO);
+
+                // Return the authenticated user or null based on the authentication result
+                return authenticatedUser;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "Login Controller");
+                // Log the exception or handle it as needed
+                return null;
+            }
+        }
+
     }
 }
  

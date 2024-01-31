@@ -8,7 +8,7 @@ using TiferetShlomoDAL.Models;
 
 namespace TiferetShlomoDAL
 {
-    public class PictureDAL
+    public class PictureDAL:IPictureDAL
     {
         private readonly TIFERET_SHLOMOContext _context = new TIFERET_SHLOMOContext();
         public async Task<List<Picture>> GetAllPictures()
