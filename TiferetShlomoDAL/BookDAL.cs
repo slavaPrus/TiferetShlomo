@@ -118,5 +118,27 @@ namespace TiferetShlomoDAL
                 return null; // Propagate the exception to the BL layer for centralized error handling
             }
         }
+        public async Task<List<Book>> GetSearchBooksByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Use your DbContext to query the database for books based on skipCount and pageSize
+                List<Book> books = await _context.Books
+                    .Where(book => book.BookName.Contains(str)) // search for books based on the bookname property
+                    .OrderBy(book => book.BookId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                return books;
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetSearchBooksByPage in BookDAL");
+                return null; // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+
     }
 }

@@ -15,7 +15,9 @@ namespace TiferetShlomoDTO.DTO
         public int? Part { get; set; }
         public string? BookUrl { get; set; }
         public int? PictureId { get; set; }
+        public float? Cost { get; set; }
 
-       // public virtual Picture? Picture { get; set; }
+
+        // public virtual Picture? Picture { get; set; }
     }
 }

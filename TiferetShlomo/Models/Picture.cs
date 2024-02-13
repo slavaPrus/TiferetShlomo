@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace TiferetShlomo.Models
+{
+    public partial class Picture
+    {
+        public Picture()
+        {
+            Flyers = new HashSet<Flyer>();
+            PictureSales = new HashSet<PictureSale>();
+        }
+
+        public int PictureId { get; set; }
+        public string? PictureName { get; set; }
+        public byte[]? PictureData { get; set; }
+
+        public virtual ICollection<Flyer> Flyers { get; set; }
+        public virtual ICollection<PictureSale> PictureSales { get; set; }
+    }
+}

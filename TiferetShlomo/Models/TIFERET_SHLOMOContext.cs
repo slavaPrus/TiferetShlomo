@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace TiferetShlomoDAL.Models
+namespace TiferetShlomo.Models
 {
     public partial class TIFERET_SHLOMOContext : DbContext
     {
@@ -59,10 +59,6 @@ namespace TiferetShlomoDAL.Models
                 entity.Property(e => e.Describe).HasMaxLength(300);
 
                 entity.Property(e => e.PictureId).HasColumnName("PictureID");
-                entity.Property(e => e.Cost)
-                    .HasColumnName("Cost")
-                    .HasColumnType("float");
-
             });
 
             modelBuilder.Entity<BookPart>(entity =>

@@ -11,5 +11,7 @@ namespace TiferetShlomoBL
         Task RemoveBook(int id);
         Task<BookDTO> UpdateBook(BookDTO book);
         Task<List<BookDTO>> GetBooksByPage(int page);
+        Task<List<BookDTO>> GetSearchBooksByPage(int page,string str);
+
     }
 }

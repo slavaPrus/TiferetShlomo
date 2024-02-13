@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TiferetShlomoDAL.Models
+namespace TiferetShlomo.Models
 {
     public partial class Book
     {
@@ -17,7 +17,7 @@ namespace TiferetShlomoDAL.Models
         public string? BookUrl { get; set; }
         public int? PictureId { get; set; }
         public string? Category { get; set; }
-        public float? Cost { get; set; }
+        public double? Cost { get; set; }
 
         public virtual ICollection<BookPart> BookParts { get; set; }
     }
