@@ -25,19 +25,26 @@ namespace TiferetShlomoDAL
         }
 
 
-        public async Task<Mark> GetMarkById(int id)
+        public async Task<List<Mark>> GetMarksByUserId(int userId)
         {
             try
             {
-                return await _context.Marks.Include(m => m.Test).Include(m => m.User)
-                    .FirstOrDefaultAsync(m => m.MarkId == id);
+                // Query the database to retrieve marks by userId
+                var marks = await _context.Marks
+                    .Include(m => m.Test)  // Include related Test entity
+                    .Where(m => m.UserId == userId)
+                    .ToListAsync();
+
+                return marks;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString(), "GetMarkById DAL");
-                return null;
+                Console.WriteLine(ex.ToString(), "GetMarksByUserId DAL");
+                return null; // Or you can rethrow the exception if you want to handle it elsewhere
             }
         }
+
+
         public async Task<List<Mark>> AddMark(Mark mark)
         {
             try

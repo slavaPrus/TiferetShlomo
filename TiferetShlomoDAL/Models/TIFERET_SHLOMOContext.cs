@@ -220,19 +220,24 @@ namespace TiferetShlomoDAL.Models
                     .ValueGeneratedNever()
                     .HasColumnName("MarkID");
 
-                entity.Property(e => e.TestId).HasColumnName("TestID");
+                entity.Property(e => e.TestId)
+                    .HasColumnName("TestID");
 
-                entity.Property(e => e.UserId).HasColumnName("UserID");
+                entity.Property(e => e.UserId)
+                    .HasColumnName("UserID");
+
+                entity.Property(e => e.MarkNumber)
+                   .HasColumnName("MarkNumber");
 
                 entity.HasOne(d => d.Test)
                     .WithMany(p => p.Marks)
                     .HasForeignKey(d => d.TestId)
-                    .HasConstraintName("FK__Marks__TestID__46E78A0C");
+                    .HasConstraintName("FK_Marks_Tests");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Marks)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Marks__TestID__45F365D3");
+                    .HasConstraintName("FK_Marks_Users");
             });
 
             modelBuilder.Entity<ParashatShavua>(entity =>

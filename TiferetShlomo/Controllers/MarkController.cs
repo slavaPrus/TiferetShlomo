@@ -34,12 +34,12 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<MarkDTO> GetMarkById(int id)
+        public async Task<List<MarkDTO>> GetMarksByUserId(int id)
         {
             try
             {
-                MarkDTO mark = await _markBL.GetMarkById(id);
-                return mark;
+                List<MarkDTO> marks = await _markBL.GetMarksByUserId(id);
+                return marks;
             }
             catch (Exception ex)
             {

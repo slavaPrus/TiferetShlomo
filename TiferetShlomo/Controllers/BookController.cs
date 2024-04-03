@@ -40,7 +40,12 @@ namespace TiferetShlomo.Controllers
         {
             try
             {
-                List<BookDTO> books = await _bookBL.GetBooksByPage(page);
+                (List<BookDTO> books, bool hasNext) = await _bookBL.GetBooksByPage(page);
+                if (!hasNext)
+                {
+                    books.Add(null);
+                }
+
                 return books;
             }
             catch (Exception ex)
@@ -56,13 +61,38 @@ namespace TiferetShlomo.Controllers
         {
             try
             {
-                List<BookDTO> books = await _bookBL.GetSearchBooksByPage(page,str);
+                (List<BookDTO> books, bool hasNext) = await _bookBL.GetSearchBooksByPage(page, str);
+                if (!hasNext)
+                {
+                    books.Add(null);
+                }
                 return books;
             }
             catch (Exception ex)
             {
 
                 Console.Write(ex.ToString(), "GetSearchBooksByPage Controller");
+                return null;
+            }
+        }
+        [HttpGet("GetFilterBooksByPage")]
+        public async Task<List<BookDTO>> GetFilterBooksByPage([FromQuery] int page, [FromQuery] string str)
+        {
+            try
+            {
+                // Call the BL layer function to retrieve filtered books
+                (List<BookDTO> filteredBooks, bool hasNext) = await _bookBL.GetFilterBooksByPage(page, str);
+
+                // Add a null book at the end if hasNext is false
+                if (!hasNext)
+                {
+                    filteredBooks.Add(null);
+                }
+                return filteredBooks;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetFilterBooksByPage Controller");
                 return null;
             }
         }

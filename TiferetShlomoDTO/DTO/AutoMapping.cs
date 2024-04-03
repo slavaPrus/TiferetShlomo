@@ -39,6 +39,8 @@ namespace TiferetShlomoDTO.DTO
             CreateMap<ParashatShavua, ParashatShavuaDTO>();
             CreateMap<ParashatShavuaDTO, ParashatShavua>();
             CreateMap<UserLoginDTO, User>();
+            CreateMap<MarkDTO, Mark>();
+            CreateMap<Mark, MarkDTO>();
 
         }
 

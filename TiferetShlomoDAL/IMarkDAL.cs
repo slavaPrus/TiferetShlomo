@@ -6,7 +6,7 @@ namespace TiferetShlomoDAL
     {
         Task<List<Mark>> AddMark(Mark mark);
         Task<List<Mark>> GetAllMarks();
-        Task<Mark> GetMarkById(int id);
+        Task<List<Mark>> GetMarksByUserId(int id);
         Task RemoveMark(int id);
         Task<Mark> UpdateMark(Mark mark);
     }

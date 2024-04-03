@@ -98,7 +98,7 @@ namespace TiferetShlomoDAL
 
         }
 
-        public async Task<List<Book>> GetBooksByPage(int skipCount, int pageSize)
+        public async Task<(List<Book>, bool)> GetBooksByPage(int skipCount, int pageSize)
         {
             try
             {
@@ -108,17 +108,22 @@ namespace TiferetShlomoDAL
                     .Skip(skipCount)
                     .Take(pageSize)
                     .ToListAsync();
+                int totalCount = await _context.Books
+                .CountAsync();
 
-                return books;
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (books, hasNext);
             }
             catch (Exception ex)
             {
                 // Handle exceptions or log them as needed
                 Console.Write(ex.ToString(), "GetBooksByPage in BookDAL");
-                return null; // Propagate the exception to the BL layer for centralized error handling
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
             }
         }
-        public async Task<List<Book>> GetSearchBooksByPage(int skipCount, int pageSize, string str)
+        public async Task<(List<Book>, bool)> GetSearchBooksByPage(int skipCount, int pageSize, string str)
         {
             try
             {
@@ -129,14 +134,51 @@ namespace TiferetShlomoDAL
                     .Skip(skipCount)
                     .Take(pageSize)
                     .ToListAsync();
+                int totalCount = await _context.Books
+                   .Where(book => book.BookName.Contains(str))
+                   .CountAsync();
 
-                return books;
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (books, hasNext);
+
+                return (books, hasNext);
             }
             catch (Exception ex)
             {
                 // Handle exceptions or log them as needed
                 Console.Write(ex.ToString(), "GetSearchBooksByPage in BookDAL");
-                return null; // Propagate the exception to the BL layer for centralized error handling
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+        public async Task<(List<Book>, bool)> GetFilterBooksByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Retrieve filtered books from the repository based on category and pagination parameters
+                List<Book> books = await _context.Books
+                    .Where(book => book.Category == str) // Filter books based on category
+                    .OrderBy(book => book.BookId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                // Calculate total count of books for the given filter criteria
+                int totalCount = await _context.Books
+                    .Where(book => book.Category == str)
+                    .CountAsync();
+
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (books, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetFilterBooksByPage in BookDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
             }
         }
 

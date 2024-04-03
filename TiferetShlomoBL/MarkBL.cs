@@ -38,13 +38,13 @@ namespace TiferetShlomoBL
             }
         }
 
-        public async Task<MarkDTO> GetMarkById(int id)
+        public async Task<List<MarkDTO>> GetMarksByUserId(int id)
         {
             try
             {
-                Mark mark = await _markDAL.GetMarkById(id);
-                MarkDTO markDTO = _mapper.Map<MarkDTO>(mark);
-                return markDTO;
+                List<Mark> marks = await _markDAL.GetMarksByUserId(id);
+                List<MarkDTO> marksDTO = _mapper.Map<List<MarkDTO>>(marks);
+                return marksDTO;
             }
             catch (Exception ex)
             {

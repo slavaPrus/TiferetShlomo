@@ -45,7 +45,8 @@ builder.Services.AddScoped<IUserDAL, UserDAL>();
 builder.Services.AddScoped<IUserBL, UserBL>();
 builder.Services.AddScoped<ILookUpBL, LookUpBL>();
 builder.Services.AddScoped<ILookUpDAL, LookUpDAL>();
-
+builder.Services.AddScoped<IMarkBL, MarkBL>();
+builder.Services.AddScoped<IMarkDAL, MarkDAL>();
 
 builder.Services.AddDbContext<TIFERET_SHLOMOContext>(options =>
     options.UseSqlServer("Server=DESKTOP-H37566O\\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;"));

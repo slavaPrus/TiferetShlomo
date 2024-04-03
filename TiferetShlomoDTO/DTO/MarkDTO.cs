@@ -10,10 +10,11 @@ namespace TiferetShlomoDTO.DTO
     public class MarkDTO
     {
         public int MarkId { get; set; }
-        public int? UserId { get; set; }
-        public int? TestId { get; set; }
+        public int UserId { get; set; }
+        public int TestId { get; set; }
+        public int MarkNumber { get; set; }
 
-        public virtual Test? Test { get; set; }
-        public virtual User? User { get; set; }
+        public virtual TestDTO? Test { get; set; }
+        public virtual UserDTO? User { get; set; }
     }
 }
