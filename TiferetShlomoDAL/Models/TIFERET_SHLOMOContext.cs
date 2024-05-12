@@ -17,7 +17,6 @@ namespace TiferetShlomoDAL.Models
         }
 
         public virtual DbSet<Book> Books { get; set; } = null!;
-        public virtual DbSet<BookPart> BookParts { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
         public virtual DbSet<Flyer> Flyers { get; set; } = null!;
@@ -58,41 +57,15 @@ namespace TiferetShlomoDAL.Models
 
                 entity.Property(e => e.Describe).HasMaxLength(300);
 
-                entity.Property(e => e.PictureId).HasColumnName("PictureID");
+                entity.Property(e => e.PictureData).HasColumnType("VARBINARY(MAX)")
+                    .HasColumnName("PictureData");
+
                 entity.Property(e => e.Cost)
                     .HasColumnName("Cost")
                     .HasColumnType("float");
-
+               
             });
 
-            modelBuilder.Entity<BookPart>(entity =>
-            {
-                entity.HasKey(e => e.PartId)
-                    .HasName("PK__BookPart__7C3F0D300434B92A");
-
-                entity.Property(e => e.PartId).HasColumnName("PartID");
-
-                entity.Property(e => e.BookId).HasColumnName("BookID");
-
-                entity.Property(e => e.Describe).HasMaxLength(300);
-
-                entity.Property(e => e.FileId).HasColumnName("FileID");
-
-                entity.Property(e => e.FilePartUrl)
-                    .HasMaxLength(50)
-                    .HasColumnName("FilePartURL");
-
-                entity.HasOne(d => d.Book)
-                    .WithMany(p => p.BookParts)
-                    .HasForeignKey(d => d.BookId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BookParts__BookI__75A278F5");
-
-                entity.HasOne(d => d.File)
-                    .WithMany(p => p.BookParts)
-                    .HasForeignKey(d => d.FileId)
-                    .HasConstraintName("FK__BookParts__FileI__3E52440B");
-            });
 
             modelBuilder.Entity<Category>(entity =>
             {

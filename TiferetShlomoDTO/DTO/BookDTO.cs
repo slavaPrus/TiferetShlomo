@@ -9,15 +9,12 @@ namespace TiferetShlomoDTO.DTO
 {
     public class BookDTO
     {
-        public int BookId { get; set; }
+        public int? BookId { get; set; }
         public string? BookName { get; set; }
         public string? Describe { get; set; }
         public int? Part { get; set; }
         public string? BookUrl { get; set; }
-        public int? PictureId { get; set; }
         public float? Cost { get; set; }
-
-
-        // public virtual Picture? Picture { get; set; }
+        public byte[]? PictureData { get; set; }
     }
 }

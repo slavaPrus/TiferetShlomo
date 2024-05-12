@@ -127,7 +127,7 @@ namespace TiferetShlomo.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<BookDTO> UpdateBook(int id ,[FromBody] BookDTO book)
+        public async Task<BookDTO> UpdateBook([FromBody] BookDTO book)
         {
             try
             {
@@ -137,7 +137,7 @@ namespace TiferetShlomo.Controllers
             }
             catch (Exception ex)
             {
-                Console.Write(ex.ToString(), "UpdateBook Controller");
+                Console.WriteLine(ex.ToString(), "UpdateBook Controller");
                 return null;
             }
         }
@@ -147,7 +147,6 @@ namespace TiferetShlomo.Controllers
             try
             {
                 await _bookBL.RemoveBook(id);
-
             }
             catch (Exception ex)
             {

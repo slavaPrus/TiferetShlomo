@@ -108,8 +108,7 @@ namespace TiferetShlomoBL
         {
             try
             {
-                //int pageSize = 16;
-                int pageSize = 3;
+                int pageSize = 18;
                 int skipCount = (page - 1) * pageSize;
                 // Retrieve books from the repository based on skipCount and pageSize
                 (List<Book> books, bool hasNext) = await _bookDAL.GetBooksByPage(skipCount, pageSize);
@@ -130,7 +129,7 @@ namespace TiferetShlomoBL
             try
             {
                 //int pageSize = 16;
-                int pageSize = 3;
+                int pageSize = 18;
                 int skipCount = (page - 1) * pageSize;
                 // Retrieve books from the repository based on skipCount and pageSize
                 (List<Book> books, bool hasNext) = await _bookDAL.GetSearchBooksByPage(skipCount, pageSize, str);
@@ -150,7 +149,7 @@ namespace TiferetShlomoBL
         {
             try
             {
-                int pageSize = 3;
+                int pageSize = 18;
                 int skipCount = (page - 1) * pageSize;
 
                 // Retrieve filtered books from the DAL layer along with the hasNext flag

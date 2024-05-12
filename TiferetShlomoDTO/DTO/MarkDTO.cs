@@ -13,7 +13,6 @@ namespace TiferetShlomoDTO.DTO
         public int UserId { get; set; }
         public int TestId { get; set; }
         public int MarkNumber { get; set; }
-
         public virtual TestDTO? Test { get; set; }
         public virtual UserDTO? User { get; set; }
     }

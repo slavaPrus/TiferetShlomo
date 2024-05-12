@@ -64,9 +64,9 @@ namespace TiferetShlomoDAL
                 if (b != null)
                 {
                     b.Part = book.Part;
-                    b.BookParts = book.BookParts;
                     b.Describe = book.Describe;
-                    b.PictureId = book.PictureId;
+                    b.PictureData = book.PictureData;
+                    b.Cost = book.Cost;
                     _context.SaveChanges();
 
                 }
