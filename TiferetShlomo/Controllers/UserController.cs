@@ -90,7 +90,7 @@ namespace TiferetShlomo.Controllers
             }
         }
         [HttpPost("signin")]
-        public async Task<UserDTO> Login([FromBody] UserLoginDTO userDTO)
+        public async Task<ActionResult<UserDTO>> Login([FromBody] UserLoginDTO userDTO)
         {
             try
             {
@@ -98,8 +98,11 @@ namespace TiferetShlomo.Controllers
                 // Perform authentication
                 UserDTO authenticatedUser = await _userBL.AuthenticateUser(userDTO);
 
+                if(authenticatedUser != null) {
+                    return Ok(authenticatedUser);
+                }
                 // Return the authenticated user or null based on the authentication result
-                return authenticatedUser;
+                return StatusCode(204, "error, user is null");
             }
             catch (Exception ex)
             {

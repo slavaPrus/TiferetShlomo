@@ -14,5 +14,7 @@ namespace TiferetShlomoDAL.Models
         public string? Category { get; set; }
         public float? Cost { get; set; }
         public byte[]? PictureData { get; set; }
+        public int? Stock { get; set; }
+
     }
 }

@@ -142,16 +142,17 @@ namespace TiferetShlomo.Controllers
             }
         }
         [HttpDelete("{id}")]
-        public async Task RemoveBook(int id)
+        public async Task<ActionResult> RemoveBook(int id)
         {
             try
             {
                 await _bookBL.RemoveBook(id);
+                return Ok();
             }
             catch (Exception ex)
             {
                 Console.Write(ex.ToString(), "RemoveBook Controller");
-
+                return StatusCode(500, "error server");
             }
         }
         

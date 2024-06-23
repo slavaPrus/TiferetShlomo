@@ -63,6 +63,8 @@ namespace TiferetShlomoDAL.Models
                 entity.Property(e => e.Cost)
                     .HasColumnName("Cost")
                     .HasColumnType("float");
+
+                entity.Property(e => e.Stock).HasColumnName("Stock");
                
             });
 
