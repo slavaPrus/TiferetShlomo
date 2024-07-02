@@ -65,7 +65,8 @@ namespace TiferetShlomoDAL
                 {
                     b.Part = book.Part;
                     b.Describe = book.Describe;
-                    b.PictureData = book.PictureData;
+                    //b.PictureData = book.PictureData;
+                    b.BookUrl = book.BookUrl;
                     b.Cost = book.Cost;
                     _context.SaveChanges();
 

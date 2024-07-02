@@ -102,5 +102,70 @@ namespace TiferetShlomoBL
 
             }
         }
+
+        public async Task<(List<LessonDTO>, bool)> GetLessonsByPage(int page)
+        {
+            try
+            {
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+                // Retrieve Lessons from the repository based on skipCount and pageSize
+                (List<Lesson> lessons, bool hasNext) = await _LessonDAL.GetLessonsByPage(skipCount, pageSize);
+
+                List<LessonDTO> lessonsDTO = _mapper.Map<List<LessonDTO>>(lessons);
+
+                return (lessonsDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetLessonsByPage in LessonBL");
+                return (null, false); 
+                // Propagate the exception to the controller for centralized error handling
+            }
+        }
+        public async Task<(List<LessonDTO>, bool)> GetSearchLessonsByPage(int page, string str)
+        {
+            try
+            {
+                //int pageSize = 16;
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+                // Retrieve books from the repository based on skipCount and pageSize
+                (List<Lesson> lessons, bool hasNext) = await _LessonDAL.GetSearchLessonsByPage(skipCount, pageSize, str);
+
+                List<LessonDTO> lessonsDTO = _mapper.Map<List<LessonDTO>>(lessons);
+
+                return (lessonsDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetSearchLessonsByPage in LessonBL");
+                return (null, false); // Propagate the exception to the controller for centralized error handling
+            }
+        }
+        public async Task<(List<LessonDTO>, bool)> GetFilterLessonsByPage(int page, string str)
+        {
+            try
+            {
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+
+                // Retrieve filtered books from the DAL layer along with the hasNext flag
+                (List<Lesson> filteredLessons, bool hasNext) = await _LessonDAL.GetFilterLessonsByPage(skipCount, pageSize, str);
+
+                List<LessonDTO> lessonsDTO = _mapper.Map<List<LessonDTO>>(filteredLessons);
+
+                return (lessonsDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetFilterLessonsByPage in LessonBL");
+                return (null, false); // Propagate the exception to the controller for centralized error handling
+            }
+        }
+
     }
 }
+

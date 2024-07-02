@@ -98,5 +98,91 @@ namespace TiferetShlomoDAL
             }
 
         }
+        public async Task<(List<Lesson>, bool)> GetLessonsByPage(int skipCount, int pageSize)
+        {
+            try
+            {
+                // Use your DbContext to query the database for lesson based on skipCount and pageSize
+                List<Lesson> lesson = await _context.Lessons
+                    .OrderBy(lesson => lesson.LessonId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+                int totalCount = await _context.Lessons
+                .CountAsync();
+
+                // Calculate if there are more lesson available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (lesson, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetLessonsByPage in LessonDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+        public async Task<(List<Lesson>, bool)> GetSearchLessonsByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Use your DbContext to query the database for books based on skipCount and pageSize
+                List<Lesson> lessons = await _context.Lessons
+                    .Where(lesson => lesson.LessonName.Contains(str)) // search for lessons based on the bookname property
+                    .OrderBy(lesson => lesson.LessonId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+                int totalCount = await _context.Lessons
+                   .Where(lesson => lesson.LessonName.Contains(str))
+                   .CountAsync();
+
+                // Calculate if there are more lessons available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (lessons, hasNext);
+
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetSearchLessonsByPage in LessonDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+        public async Task<(List<Lesson>, bool)> GetFilterLessonsByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Retrieve filtered Lesson from the repository based on category and pagination parameters
+                List<Lesson> lessons = await _context.Lessons
+                    .Where(lesson => lesson.LessonSubject.Describe == str) // Filter lessons based on category
+                    .OrderBy(lesson => lesson.LessonId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                // Calculate total count of books for the given filter criteria
+                int totalCount = await _context.Lessons
+                    .Where(lesson => lesson.LessonName == str)
+                    .CountAsync();
+
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (lessons, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetFilterLessonsByPage in LessonDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+
     }
 }
+
+    
+

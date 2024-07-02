@@ -93,5 +93,70 @@ namespace TiferetShlomo.Controllers
                 Console.Write(ex.ToString(), "RemoveFlyer Controller");
             }
         }
+        [HttpGet("GetSearchFlyersByPage")]
+        public async Task<List<FlyerDTO>> GetSearchFlyersByPage([FromQuery] int page, [FromQuery] string str)
+        {
+            try
+            {
+                (List<FlyerDTO> flyers, bool hasNext) = await _flyerBL.GetSearchFlyersByPage(page, str);
+                if (!hasNext)
+                {
+                    flyers.Add(null);
+                }
+                return flyers;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "GetSearchFlyersByPage Controller");
+                return null;
+            }
+        }
+
+        [HttpGet("GetFilterFlyersByPage")]
+        public async Task<List<FlyerDTO>> GetFilterFlyersByPage([FromQuery] int page, [FromQuery] string str)
+        {
+            try
+            {
+                // Call the BL layer function to retrieve filtered books
+                (List<FlyerDTO> filteredFlyers, bool hasNext) = await _flyerBL.GetFilterFlyersByPage(page, str);
+
+                // Add a null book at the end if hasNext is false
+                if (!hasNext)
+                {
+                    filteredFlyers.Add(null);
+                }
+                return filteredFlyers;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetFilterFlyersByPage Controller");
+                return null;
+            }
+        }
+
+        [HttpGet("getFlyersByPage/{page}")]
+        public async Task<List<FlyerDTO>> GetFlyersByPage(int page)
+        {
+            try
+            {
+                (List<FlyerDTO> flyers, bool hasNext) = await _flyerBL.GetFlyersByPage(page);
+                if (!hasNext)
+                {
+                    flyers.Add(null);
+                }
+
+                return flyers;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "GetFlyersByPage Controller");
+                return null;
+            }
+        }
+
     }
 }
+    
+

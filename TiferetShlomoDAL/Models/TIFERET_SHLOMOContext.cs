@@ -37,7 +37,7 @@ namespace TiferetShlomoDAL.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-H37566O\\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-BM097NQ;Database=TIFERET_SHLOMO;Trusted_Connection=True;");
             }
         }
 
@@ -63,6 +63,7 @@ namespace TiferetShlomoDAL.Models
                 entity.Property(e => e.Cost)
                     .HasColumnName("Cost")
                     .HasColumnType("float");
+                entity.Property(e => e.Stock).HasColumnName("Stock");
                
             });
 

@@ -121,7 +121,8 @@ namespace TiferetShlomoBL
             {
                 // Handle exceptions or log them as needed
                 Console.Write(ex.ToString(), "GetBooksByPage in BookBL");
-                return (null, false); // Propagate the exception to the controller for centralized error handling
+                return (null, false); 
+                // Propagate the exception to the controller for centralized error handling
             }
         }
         public async Task<(List<BookDTO>, bool)> GetSearchBooksByPage(int page, string str)
@@ -163,7 +164,8 @@ namespace TiferetShlomoBL
             catch (Exception ex)
             {
                 Console.Write(ex.ToString(), "GetFilterBooksByPage in BookBL");
-                return (null, false); // Propagate the exception to the controller for centralized error handling
+                return (null, false); 
+                // Propagate the exception to the controller for centralized error handling
             }
         }
 

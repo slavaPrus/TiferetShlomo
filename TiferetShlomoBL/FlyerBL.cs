@@ -92,5 +92,70 @@ namespace TiferetShlomoBL
                 Console.Write(ex.ToString(), "RemoveFlyer BL");
             }
         }
+        public async Task<(List<FlyerDTO>, bool)> GetFlyersByPage(int page)
+        {
+            try
+            {
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+                // Retrieve flyers from the repository based on skipCount and pageSize
+                (List<Flyer> flyers, bool hasNext) = await _flyerDAL.GetFlyersByPage(skipCount, pageSize);
+
+                List<FlyerDTO> flyersDTO = _mapper.Map<List<FlyerDTO>>(flyers);
+
+                return (flyersDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetFlyersByPage in FlyerBL");
+                return (null, false); 
+                // Propagate the exception to the controller for centralized error handling
+            }
+        }
+        public async Task<(List<FlyerDTO>, bool)> GetSearchFlyersByPage(int page, string str)
+        {
+            try
+            {
+                //int pageSize = 16;
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+                // Retrieve books from the repository based on skipCount and pageSize
+                (List<Flyer> flyers, bool hasNext) = await _flyerDAL.GetSearchFlyersByPage(skipCount, pageSize, str);
+
+                List<FlyerDTO> flyersDTO = _mapper.Map<List<FlyerDTO>>(flyers);
+
+                return (flyersDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetSearchFlyersByPage in FlyerBL");
+                return (null, false); // Propagate the exception to the controller for centralized error handling
+            }
+        }
+        public async Task<(List<FlyerDTO>, bool)> GetFilterFlyersByPage(int page, string str)
+        {
+            try
+            {
+                int pageSize = 18;
+                int skipCount = (page - 1) * pageSize;
+
+                // Retrieve filtered books from the DAL layer along with the hasNext flag
+                (List<Flyer> filteredFlyers, bool hasNext) = await _flyerDAL.GetFilterFlyersByPage(skipCount, pageSize, str);
+
+                // Map filtered books to DTOs
+                List<FlyerDTO> flyersDTO = _mapper.Map<List<FlyerDTO>>(filteredFlyers);
+
+                return (flyersDTO, hasNext);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetFilterFlyersByPage in FlyerBL");
+                return (null, false); // Propagate the exception to the controller for centralized error handling
+            }
+        }
+      
+
     }
 }

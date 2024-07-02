@@ -10,13 +10,75 @@ namespace TiferetShlomo.Controllers
 {
     [Route("api/lessons")]
     [ApiController]
-    public class lessonController : ControllerBase
+    public class LessonController : ControllerBase
     {
         private readonly ILessonBL _lessonBL;
 
-        public lessonController(ILessonBL lessonBL)
+        public LessonController(ILessonBL lessonBL)
         {
             _lessonBL = lessonBL;
+        }
+
+        [HttpGet("getLessonsByPage/{page}")]
+        public async Task<List<LessonDTO>> GetLessonsByPage(int page)
+        {
+            try
+            {
+                (List<LessonDTO> lessons, bool hasNext) = await _lessonBL.GetLessonsByPage(page);
+                if (!hasNext)
+                {
+                    lessons.Add(null);
+                }
+
+                return lessons;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "GetBooksByPage Controller");
+                return null;
+            }
+        }
+
+        [HttpGet("GetSearchLessonsByPage")]
+        public async Task<List<LessonDTO>> GetSearchLessonsByPage([FromQuery] int page, [FromQuery] string str)
+        {
+            try
+            {
+                (List<LessonDTO> lessons, bool hasNext) = await _lessonBL.GetSearchLessonsByPage(page, str);
+                if (!hasNext)
+                {
+                    lessons.Add(null);
+                }
+                return lessons;
+            }
+            catch (Exception ex)
+            {
+
+                Console.Write(ex.ToString(), "GetSearchLessonsByPage Controller");
+                return null;
+            }
+        }
+        [HttpGet("GetFilterLessonsByPage")]
+        public async Task<List<LessonDTO>> GetFilterLessonsByPage([FromQuery] int page, [FromQuery] string str)
+        {
+            try
+            {
+                // Call the BL layer function to retrieve filtered books
+                (List<LessonDTO> filteredLessons, bool hasNext) = await _lessonBL.GetFilterLessonsByPage(page, str);
+
+                // Add a null book at the end if hasNext is false
+                if (!hasNext)
+                {
+                    filteredLessons.Add(null);
+                }
+                return filteredLessons;
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.ToString(), "GetFilterLessonsByPage Controller");
+                return null;
+            }
         }
 
         [HttpGet]

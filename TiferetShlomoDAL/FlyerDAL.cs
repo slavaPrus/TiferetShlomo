@@ -98,5 +98,91 @@ namespace TiferetShlomoDAL
                 Console.Write(ex.ToString(), "RemoveFlyer DAL");
             }
         }
+        public async Task<(List<Flyer>, bool)> GetFlyersByPage(int skipCount, int pageSize)
+        {
+            try
+            {
+                // Use your DbContext to query the database for books based on skipCount and pageSize
+                List<Flyer> flyers = await _context.Flyers
+                    .OrderBy(flyer => flyer.FlyerId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+                int totalCount = await _context.Flyers
+                .CountAsync();
+
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (flyers, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetFlyersByPage in FlyerDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+        public async Task<(List<Flyer>, bool)> GetSearchFlyersByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Use your DbContext to query the database for books based on skipCount and pageSize
+                List<Flyer> flyers = await _context.Flyers
+                    .Where(flyer => flyer.ParashatShavua.Describe.Contains(str)) // search for books based on the bookname property
+                    .OrderBy(flyer => flyer.FlyerId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+                int totalCount = await _context.Flyers
+                   .Where(flyer => flyer.ParashatShavua.Describe.Contains(str))
+                   .CountAsync();
+
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (flyers, hasNext);
+
+          
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetSearchFlyersByPage in FlyerDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+        public async Task<(List<Flyer>, bool)> GetFilterFlyersByPage(int skipCount, int pageSize, string str)
+        {
+            try
+            {
+                // Retrieve filtered books from the repository based on category and pagination parameters
+                List<Flyer> books = await _context.Flyers
+                    .Where(flyer => flyer.ParashatShavua.Describe == str) // Filter books based on category
+                    .OrderBy(flye => flye.FlyerId) // or any other property you want to order by
+                    .Skip(skipCount)
+                    .Take(pageSize)
+                    .ToListAsync();
+
+                // Calculate total count of books for the given filter criteria
+                int totalCount = await _context.Flyers
+                    .Where(flyer => flyer.ParashatShavua.Describe == str)
+                    .CountAsync();
+
+                // Calculate if there are more books available based on pagination parameters and total count
+                bool hasNext = skipCount + pageSize < totalCount;
+
+                return (books, hasNext);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions or log them as needed
+                Console.Write(ex.ToString(), "GetFilterFlyersByPage in FlyerDAL");
+                return (null, false); // Propagate the exception to the BL layer for centralized error handling
+            }
+        }
+
     }
 }
+
+

@@ -43,11 +43,15 @@ builder.Services.AddScoped<IUserDAL, UserDAL>();
 builder.Services.AddScoped<IUserBL, UserBL>();
 builder.Services.AddScoped<ILookUpBL, LookUpBL>();
 builder.Services.AddScoped<ILookUpDAL, LookUpDAL>();
+builder.Services.AddScoped<ILessonBL, LessonBL>();
+builder.Services.AddScoped<ILessonDAL, LessonDAL>();
 builder.Services.AddScoped<IMarkBL, MarkBL>();
 builder.Services.AddScoped<IMarkDAL, MarkDAL>();
+builder.Services.AddScoped<IFlyerBL, FlyerBL>();
+builder.Services.AddScoped<IFlyerDAL, FlyerDAL>();
 
 builder.Services.AddDbContext<TIFERET_SHLOMOContext>(options =>
-    options.UseSqlServer("Server=DESKTOP-H37566O\\MSSQLSERVER01;Database=TIFERET_SHLOMO;Trusted_Connection=True;"));
+    options.UseSqlServer("Server=DESKTOP-BM097NQ;Database=TIFERET_SHLOMO;Trusted_Connection=True;"));
 
 var app = builder.Build();
 
