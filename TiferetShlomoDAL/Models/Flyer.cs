@@ -12,6 +12,7 @@ namespace TiferetShlomoDAL.Models
         public byte[]? FlyerData { get; set; }
         public string? PictureUrl { get; set; }
         public int? PictureId { get; set; }
+        public string? ParashatShavuaDescribe { get; set; }
 
         public virtual ParashatShavua? ParashatShavua { get; set; }
         public virtual Picture? Picture { get; set; }

@@ -17,7 +17,6 @@ namespace TiferetShlomoDTO.DTO
         public string? PictureUrl { get; set; }
         public int? PictureId { get; set; }
 
-        public virtual ParashatShavua? ParashatShavua { get; set; }
-        public virtual Picture? Picture { get; set; }
+        public string? ParashatShavuaDescribe { get; set; }
     }
 }

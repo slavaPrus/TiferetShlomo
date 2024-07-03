@@ -70,6 +70,8 @@ namespace TiferetShlomoDAL
                     existingFlyer.FlyerData = flyer.FlyerData;
                     existingFlyer.PictureUrl = flyer.PictureUrl;
                     existingFlyer.PictureId = flyer.PictureId;
+                    existingFlyer.ParashatShavuaDescribe = flyer.ParashatShavuaDescribe;
+
 
                     await _context.SaveChangesAsync();
                 }
@@ -129,13 +131,13 @@ namespace TiferetShlomoDAL
             {
                 // Use your DbContext to query the database for books based on skipCount and pageSize
                 List<Flyer> flyers = await _context.Flyers
-                    .Where(flyer => flyer.ParashatShavua.Describe.Contains(str)) // search for books based on the bookname property
+                    .Where(flyer => flyer.ParashatShavuaDescribe.Contains(str)) // search for books based on the bookname property
                     .OrderBy(flyer => flyer.FlyerId) // or any other property you want to order by
                     .Skip(skipCount)
                     .Take(pageSize)
                     .ToListAsync();
                 int totalCount = await _context.Flyers
-                   .Where(flyer => flyer.ParashatShavua.Describe.Contains(str))
+                   .Where(flyer => flyer.ParashatShavuaDescribe.Contains(str))
                    .CountAsync();
 
                 // Calculate if there are more books available based on pagination parameters and total count
